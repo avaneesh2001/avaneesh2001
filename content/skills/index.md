@@ -9,6 +9,8 @@ weight: 10
 
 ## Skills
 
+<div data-aos="zoom-in">
+
 | |**Languages**     |   **AI/Ml**                                |
 |:--|:--------------|-------------------------------------------:|
 | A | English        |NLP                                         |
@@ -22,7 +24,9 @@ weight: 10
 | | SEO Optimisation        |C#|
 | | Power BI                |MATLAB|
 | | Kiel μVision            |HTML and CSS | 
+</div>
 
+<div data-aos="fade-up">
 
  ## Accomplishments
  ### Extra-Curricular
@@ -34,12 +38,16 @@ weight: 10
 
 ### Sports
 - Secured third position in the Karate State Championship 2016.
-
+</div>
 
 ## Courses
+<div data-aos="zoom-in">
+
 |Course                                   |Organisation           |
 |:----------------------------------------|----------------------:|
 |Japanese Marugoto A1	                  | Japan Foundation      |
 |Search engine optimization fundamentals  |	Coursera              |
 |Introduction to Solar Cells              |	Coursera              |
 |Fundamentals of Digital Marketing	      | Google digital garage |
+
+</div>

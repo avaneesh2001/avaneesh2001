@@ -15,6 +15,7 @@ showAuthorBottom: true
  Contact Form
 {{</ typeit >}}
 
+<div data-aos="flip-left">
 <form action="https://formspree.io/f/mzzppkbv" method="POST">
     <label for="name" style="display: block; font-weight: bold; margin-bottom: 5px;">Name:</label>
     <input type="text" id="name" name="name" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ced4da; border-radius: 4px; box-sizing: border-box; font-size: 16px; background-color: #fff ; color: #495057" required><br>
@@ -24,6 +25,7 @@ showAuthorBottom: true
     <textarea id="message" name="message" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ced4da; border-radius: 4px; box-sizing: border-box; font-size: 16px;" required></textarea><br>
     <button type="submit" style="background-color: #0f3052; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px;">Send</button>
 </form>
+</div>
 
 
 {{< typeit 
