@@ -62,6 +62,8 @@ Pioneered the development and automation of M-Plane test solutions, ensuring rig
 
 ### TRUMINDS SOFTWARE SYSTEMS
 
+<div data-aos="fade-up">
+  
 During my internship at Truminds Software Systems, I had the opportunity to work on a project for a client. My role in the project involved software development using Python, specifically focusing on the implementation of Named Entity Recognition for name masking, multiprocessing and multi-threading, and web and social media scraping using Selenium.
 
 </div>
