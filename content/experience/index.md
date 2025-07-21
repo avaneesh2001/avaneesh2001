@@ -55,8 +55,11 @@ Pioneered the development and automation of M-Plane test solutions, ensuring rig
 
 ➜ Guaranteed strict adherence to critical O-RAN standards, including O-RAN.WG4, Open Front Haul Conformance Test specifications, and M-Plane specifications, thereby ensuring the integrity and compliance of all developed test solutions.
 </div>
+
 #### May 2022 - July 2022
+
 ## INTERN
+
 ### TRUMINDS SOFTWARE SYSTEMS
 
 During my internship at Truminds Software Systems, I had the opportunity to work on a project for a client. My role in the project involved software development using Python, specifically focusing on the implementation of Named Entity Recognition for name masking, multiprocessing and multi-threading, and web and social media scraping using Selenium.
