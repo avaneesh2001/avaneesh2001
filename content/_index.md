@@ -10,12 +10,21 @@ weight: 10
 {{< typeit 
   tag=h1
   lifeLike=true >}}
-Hi 👋 
+Hello! Welcome to my website. 🙏
 {{< /typeit >}}
 
 <div style="text-align: justify;">
 Software Engineer with experience in building automation systems and AI‑driven solutions.  
 My work spans telecom software development aligned with Open RAN specifications, large language model pipelines for code applications like unit test generation, automated code review, documentation generation inter alia, and practical automation tools that increase efficiency and reliability.
+</div>
+
+## Specializations
+
+<div style="text-align: justify;">
+• Automation Engineering  <br>
+• Large Language Models (LLMs) & Prompt Engineering  <br>
+• Telecom Software & O‑RAN Integration  <br>
+• API Design & Test Framework Developmen  <br>
 </div>
 
 ## Experience Summary
@@ -31,15 +40,6 @@ My work spans telecom software development aligned with Open RAN specification
 {{< button href="experience" target="_self" >}}
 See Complete Experience
 {{< /button >}}
-
-## Specializations
-
-<div style="text-align: justify;">
-• Automation Engineering  <br>
-• Large Language Models (LLMs) & Prompt Engineering  <br>
-• Telecom Software & O‑RAN Integration  <br>
-• API Design & Test Framework Developmen  <br>
-</div>
 
 ## Core Skills
 
@@ -70,3 +70,4 @@ Gold Medalist — Top Performer
 See Complete Educations
 {{< /button >}}
 
+A brief selection of academic and applied engineering projects. 👇
