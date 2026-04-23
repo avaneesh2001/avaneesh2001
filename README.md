@@ -1,30 +1,26 @@
-# Vellum Portfolio
+# Hi, I'm Avaneesh 👋
 
-A static, TOML-driven personal portfolio built with Astro. It is designed for GitHub Pages and keeps all editable content in the `data/` directory.
+I build things at the intersection of **systems, automation, and AI**.
 
-## Edit Content
+## 🚀 What I Do
 
-Update the TOML files in `data/`:
+- Build backend systems and tools  
+- Explore AI-driven workflows  
+- Design automation for real-world problems  
 
-- `site.toml`
-- `home.toml`
-- `experience.toml`
-- `projects.toml`
-- `skills.toml`
-- `activities.toml`
-- `achievements.toml`
-- `education.toml`
+## 🧠 Interests
 
-## Commands
+- Systems engineering  
+- Developer tooling  
+- Applied AI (LLMs)  
+- Scalable automation  
 
-```bash
-npm install
-npm run dev
-npm run build
-```
+## 📫 Connect
 
-The static site is generated into `dist/`.
+- GitHub: https://github.com/avaneesh2001  
+- LinkedIn: https://linkedin.com/in/avaneesh-r  
+- Portfolio: https://avaneesh.short.gy/site  
 
-## GitHub Pages
+---
 
-The included workflow in `.github/workflows/deploy.yml` builds the site and publishes `dist/` to GitHub Pages on pushes to `main`. In the repository settings, set Pages to use GitHub Actions.
+Building quietly.
