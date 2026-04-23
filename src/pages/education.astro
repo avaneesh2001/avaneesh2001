@@ -1,0 +1,29 @@
+---
+import ImagePlaceholder from "@components/ImagePlaceholder.astro";
+import PageHeader from "@components/PageHeader.astro";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { getContentFile } from "@lib/content";
+import type { EducationContent } from "../types/content";
+
+const educationContent = getContentFile<EducationContent>("education");
+const education = educationContent.education_details;
+---
+
+<BaseLayout title="Education" description={educationContent.page_intro} accent="teal">
+  <PageHeader eyebrow="Academic record" title={educationContent.page_title} intro={educationContent.page_intro} />
+
+  <section class="education-panel paper-card" data-reveal>
+    <div class="education-copy">
+      <p class="eyebrow">{education.study_period}</p>
+      <h2>{education.institution_name}</h2>
+      <p class="degree-name">{education.degree_name}</p>
+      <p>{education.short_highlight}</p>
+      {(education.additional_points ?? []).length > 0 && (
+        <ul class="education-point-list">
+          {(education.additional_points ?? []).map((item) => <li>{item.point}</li>)}
+        </ul>
+      )}
+    </div>
+    <ImagePlaceholder imagePath={education.optional_image} label="Education image" />
+  </section>
+</BaseLayout>

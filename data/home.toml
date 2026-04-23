@@ -1,0 +1,72 @@
+[hero]
+hero_headline = "R Avaneesh"
+hero_subheadline = """Software Engineer building backend systems, automation frameworks, and AI-powered developer tools.
+Focused on turning complex codebases into scalable, reliable systems."""
+primary_cta_label = "Resume"
+primary_cta_href = "/resume.pdf"
+secondary_cta_label = "GitHub"
+secondary_cta_href = "https://github.com/avaneesh2001"
+linkedin_cta_label = "LinkedIn"
+linkedin_cta_href = "https://linkedin.com/in/avaneesh-r/"
+
+[hero_archive_card]
+label = "Current focus"
+line_one = "Backend systems"
+line_two = "Code intelligence"
+line_three = "Applied AI workflows"
+
+
+[about_scroll]
+eyebrow = "About"
+headline = "About me"
+body = """I’m a Software Development Engineer with a focus on backend systems, automation, and applied AI.
+At Truminds, I’ve worked across telecom testing systems, large-scale code analysis, and LLM-based developer tooling. My work ranges from building dependency graph systems that handle millions of queries to designing pipelines that generate unit tests using large language models.
+I enjoy working on problems that sit between systems and intelligence. Things like code understanding, automation at scale, and building tools that make developers faster.
+I tend to take ownership end-to-end, from design to deployment, and I’m comfortable working in ambiguous problem spaces."""
+side_note = "Exploring how AI can automate complex engineering tasks at scale"
+
+[contact_card]
+eyebrow = "Contact"
+headline = "Let’s connect"
+description = "Always open to interesting problems and collaborations"
+email_label = "Email"
+email_href = "mailto:ravaneesh1@gmail.com"
+linkedin_label = "LinkedIn"
+linkedin_href = "https://linkedin.com/in/avaneesh-r/"
+github_label = "GitHub"
+github_href = "https://github.com/avaneesh2001"
+
+[[selected_impact_items]]
+title = "LLM-powered test generation"
+description = "Improved conditional test coverage from 50% to 83% across large codebases"
+
+[[selected_impact_items]]
+title = "Code dependency graph system"
+description = "Built a multi-language system handling millions of queries with low-latency retrieval"
+
+[[selected_impact_items]]
+title = "Automation at scale"
+description = "Developed 40+ telecom test cases, reducing manual testing effort significantly"
+
+[[selected_impact_items]]
+title = "Large-scale ingestion pipeline"
+description = "Turned large, messy codebases into fast, queryable systems"
+
+
+[[section_preview_cards]]
+title = "Experience"
+description = "Backend systems, telecom automation, and LLM-driven engineering work"
+href = "/experience/"
+accent = "sapphire"
+
+[[section_preview_cards]]
+title = "Projects"
+description = "AI systems, developer tools, and experimental builds"
+href = "/projects/"
+accent = "emerald"
+
+[[section_preview_cards]]
+title = "Activities"
+description = "Leadership, events, and creative involvement beyond engineering"
+href = "/activities/"
+accent = "garnet"

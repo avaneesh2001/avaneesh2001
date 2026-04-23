@@ -1,0 +1,61 @@
+---
+import ImagePlaceholder from "@components/ImagePlaceholder.astro";
+import PageHeader from "@components/PageHeader.astro";
+import TagList from "@components/TagList.astro";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { getContentFile } from "@lib/content";
+import type { ProjectsContent } from "../types/content";
+
+const projectsContent = getContentFile<ProjectsContent>("projects");
+
+const hasProjectLink = (href: string) => href.trim().length > 0;
+---
+
+<BaseLayout title="Projects" description={projectsContent.page_intro} accent="emerald">
+  <PageHeader eyebrow="Build notes" title={projectsContent.page_title} intro={projectsContent.page_intro} />
+
+  <section class="content-section">
+    <div class="section-heading" data-reveal>
+      <p class="eyebrow">Featured projects</p>
+      <h2>Selected technical work</h2>
+    </div>
+    <div class="featured-project-grid">
+      {projectsContent.featured_projects.map((project) => (
+        <article class="project-card paper-card" data-reveal>
+          <ImagePlaceholder imagePath={project.optional_image} label="Project visual" />
+          <div class="project-card-body">
+            <h3>{project.project_title}</h3>
+            <p>{project.short_description}</p>
+            <p class="impact-note">{project.impact_statement}</p>
+            <TagList tags={project.technology_tags} />
+            {(project.project_links ?? []).some((link) => hasProjectLink(link.href)) && (
+              <div class="text-link-row">
+                {(project.project_links ?? []).filter((link) => hasProjectLink(link.href)).map((link) => <a href={link.href}>{link.label}</a>)}
+              </div>
+            )}
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="content-section">
+    <div class="section-heading" data-reveal>
+      <p class="eyebrow">Archive</p>
+      <h2>Other projects</h2>
+    </div>
+    <div class="archive-list">
+      {projectsContent.project_archive.map((project) => {
+        const hasArchiveLink = hasProjectLink(project.github_link);
+        const ArchiveElement = hasArchiveLink ? "a" : "article";
+        return (
+          <ArchiveElement class:list={["archive-row", hasArchiveLink && "has-link"]} href={hasArchiveLink ? project.github_link : undefined} data-reveal>
+            <strong>{project.title}</strong>
+            <span>{project.brief_description}</span>
+            {hasArchiveLink && <span class="archive-link-indicator">Open</span>}
+          </ArchiveElement>
+        );
+      })}
+    </div>
+  </section>
+</BaseLayout>

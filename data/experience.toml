@@ -1,0 +1,42 @@
+page_title = "Experience"
+page_intro = "Backend systems, automation frameworks, and AI-driven engineering work"
+
+[[experience_entries]]
+role_title = "Software Development Engineer"
+organization_name = "Truminds Software Systems"
+location = "Chennai & Bengaluru, India"
+duration = "Sep 2023 – Present"
+role_summary = "Building backend systems, automation frameworks, and LLM-powered developer tools"
+accent = "sapphire"
+visible_bullets = [
+  "Built multi-language code dependency graph system",
+  "Improved test coverage using LLM-based pipelines",
+  "Worked across backend systems, AI, and telecom automation"
+]
+detailed_bullets = [
+  "Designed and deployed a code dependency graph system indexing 3.5k+ repositories with low-latency query support",
+  "Built end-to-end LLM pipeline for automated unit test generation improving conditional coverage from 50% to 83%",
+  "Developed 40+ O-RAN M-Plane test cases using C#, Python, and OpenTAP, integrating REST APIs for scalable execution"
+]
+optional_longer_explanation = "This role spans systems engineering, backend infrastructure, and applied AI. Work includes large-scale code analysis, automation frameworks, and LLM-based tooling focused on improving developer productivity and system reliability."
+optional_image = ""
+
+[[experience_entries]]
+role_title = "Software Engineer Intern"
+organization_name = "Truminds Software Systems"
+location = "Bengaluru, India"
+duration = "May 2022 – Jul 2022"
+role_summary = "Worked on data pipelines, automation, and applied ML systems"
+accent = "emerald"
+visible_bullets = [
+  "Built GDPR-compliant name masking system",
+  "Developed web scraping pipelines",
+  "Worked on data processing and automation"
+]
+detailed_bullets = [
+  "Implemented NER-based system for detecting and masking sensitive entities in text data",
+  "Built automated data extraction pipelines using Selenium for structured data collection",
+  "Optimized performance using multithreading for handling real-world data workloads"
+]
+optional_longer_explanation = "Focused on building practical ML-powered systems and automation pipelines, working with messy real-world data and improving performance through parallel processing."
+optional_image = ""

@@ -1,0 +1,44 @@
+---
+import ImagePlaceholder from "@components/ImagePlaceholder.astro";
+import PageHeader from "@components/PageHeader.astro";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { getContentFile } from "@lib/content";
+import type { ExperienceContent } from "../types/content";
+
+const experienceContent = getContentFile<ExperienceContent>("experience");
+---
+
+<BaseLayout title="Experience" description={experienceContent.page_intro} accent="sapphire">
+  <PageHeader eyebrow="Professional files" title={experienceContent.page_title} intro={experienceContent.page_intro} />
+
+  <section class="timeline-section" aria-label="Experience timeline">
+    {experienceContent.experience_entries.map((entry) => (
+      <article class={`timeline-card paper-card accent-${entry.accent}`} data-reveal>
+        <div class="timeline-marker" aria-hidden="true"></div>
+        <div class="role-card-header">
+          <div>
+            <p class="eyebrow">{entry.duration} · {entry.location}</p>
+            <h2>{entry.role_title}</h2>
+            <p class="organization-name">{entry.organization_name}</p>
+          </div>
+          <p>{entry.role_summary}</p>
+        </div>
+        <ul class="clean-list">
+          {entry.visible_bullets.map((bullet) => <li>{bullet}</li>)}
+        </ul>
+        <details class="details-dossier">
+          <summary>Read deeper notes</summary>
+          <div class="details-content">
+            <div>
+              <p>{entry.optional_longer_explanation}</p>
+              <ul class="clean-list">
+                {entry.detailed_bullets.map((bullet) => <li>{bullet}</li>)}
+              </ul>
+            </div>
+            <ImagePlaceholder imagePath={entry.optional_image} label="Experience visual" />
+          </div>
+        </details>
+      </article>
+    ))}
+  </section>
+</BaseLayout>

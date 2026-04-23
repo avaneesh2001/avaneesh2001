@@ -1,0 +1,59 @@
+---
+import PageHeader from "@components/PageHeader.astro";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { getContentFile } from "@lib/content";
+import type { SkillsContent } from "../types/content";
+
+const skillsContent = getContentFile<SkillsContent>("skills");
+---
+
+<BaseLayout title="Skills" description={skillsContent.page_intro} accent="amethyst">
+  <PageHeader eyebrow="Capability map" title={skillsContent.page_title} intro={skillsContent.page_intro} />
+
+  <section class="capability-map" aria-label="Skill groups with proof">
+    {skillsContent.skill_groups.map((skillGroup) => (
+      <article class={`capability-cluster accent-${skillGroup.accent}`} data-reveal>
+        <header class="capability-cluster-header">
+          <span class="capability-cluster-dot"></span>
+          <h2>{skillGroup.group_name}</h2>
+        </header>
+        <div class="capability-document-grid">
+          {skillGroup.skills.map((skill, skillIndex) => {
+            const dialogId = `skill-dialog-${skillGroup.group_name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${skillIndex}`;
+            return (
+            <article class="capability-document">
+              <button class="capability-button" type="button" data-skill-dialog-trigger={dialogId}>
+                <span class="skill-name-dot"></span>
+                <span>{skill.skill_name}</span>
+              </button>
+              <dialog id={dialogId} class={`skill-dialog accent-${skillGroup.accent}`} data-skill-dialog>
+                <div class="skill-dialog-panel">
+                  <button class="skill-dialog-close" type="button" aria-label="Close skill details" data-skill-dialog-close>x</button>
+                  <p class="eyebrow">{skillGroup.group_name}</p>
+                  <h3>{skill.skill_name}</h3>
+                  <div class="capability-proof-panel">
+                <p>{skill.short_context}</p>
+                <dl class="capability-proof-list">
+                  {skill.related_projects.length > 0 && (
+                    <div>
+                      <dt>Related projects</dt>
+                      <dd>{skill.related_projects.join(", ")}</dd>
+                    </div>
+                  )}
+                  {skill.related_experience.length > 0 && (
+                    <div>
+                      <dt>Related experience</dt>
+                      <dd>{skill.related_experience.join(", ")}</dd>
+                    </div>
+                  )}
+                </dl>
+              </div>
+                </div>
+              </dialog>
+            </article>
+          )})}
+        </div>
+      </article>
+    ))}
+  </section>
+</BaseLayout>

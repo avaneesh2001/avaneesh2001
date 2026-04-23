@@ -1,0 +1,156 @@
+page_title = "Skills"
+page_intro = "A mix of backend engineering, applied AI, automation, and systems-oriented problem solving"
+
+[[skill_groups]]
+group_name = "Backend & Systems"
+accent = "sapphire"
+
+[[skill_groups.skills]]
+skill_name = "Python"
+short_context = "Used across backend services, automation pipelines, code analysis, and AI workflows at Truminds"
+related_projects = ["Dreamscape Symphony", "Bird Identification System",]
+related_experience = ["Software Development Engineer", "Software Engineer Intern"]
+
+[[skill_groups.skills]]
+skill_name = "C#"
+short_context = "Used professionally for telecom test automation and OpenTAP-based framework development"
+related_projects = []
+related_experience = ["Software Development Engineer - OpenTap Automation"]
+
+[[skill_groups.skills]]
+skill_name = "REST APIs"
+short_context = "Integrated APIs into automation systems to support scalable remote execution and backend workflows"
+related_projects = []
+related_experience = ["Software Development Engineer - ORAN M-Plane Development"]
+
+[[skill_groups.skills]]
+skill_name = "Concurrency & Data Pipelines"
+short_context = "Built ingestion and processing pipelines for large codebases and optimized workflows with parallelism"
+related_projects = []
+related_experience = ["Software Development Engineer - Code Dependency Graph System", "Software Engineer Intern - NER for GDPR"]
+
+[[skill_groups.skills]]
+skill_name = "Automation Frameworks"
+short_context = "Worked on test execution systems, backend automation, and scalable validation workflows"
+related_projects = []
+related_experience = ["Software Development Engineer - OpenTap Automation"]
+
+[[skill_groups.skills]]
+skill_name = "Systems Design"
+short_context = "Designed low-latency systems for dependency retrieval, indexing, and large-scale engineering workflows"
+related_projects = [""]
+related_experience = ["Software Development Engineer - Code Dependency Graph System"]
+
+[[skill_groups]]
+group_name = "AI / ML"
+accent = "amethyst"
+
+[[skill_groups.skills]]
+skill_name = "Large Language Models (LLMs)"
+short_context = "Built end-to-end pipelines for automated unit test generation, refinement, and evaluation"
+related_projects = ["Dreamscape Symphony"]
+related_experience = ["Software Development Engineer"]
+
+[[skill_groups.skills]]
+skill_name = "Prompt Engineering"
+short_context = "Designed prompts and iterative correction loops for reliable code understanding and test generation"
+related_projects = []
+related_experience = ["Software Development Engineer"]
+
+[[skill_groups.skills]]
+skill_name = "Machine Learning"
+short_context = "Applied ML across classification, entity recognition, and generative systems"
+related_projects = ["Bird Identification System", "Dreamscape Symphony"]
+related_experience = ["Software Development Engineer", "Software Engineer Intern"]
+
+[[skill_groups.skills]]
+skill_name = "Natural Language Processing"
+short_context = "Used for text processing, dream-to-lyrics workflows, and NER-based masking systems"
+related_projects = ["Dreamscape Symphony"]
+related_experience = ["Software Engineer Intern - NER for GDPR"]
+
+[[skill_groups.skills]]
+skill_name = "CNNs & GANs"
+short_context = "Worked on image classification and generative media systems in academic and personal projects"
+related_projects = ["Bird Identification System", "AI Speech Video Generation System"]
+related_experience = []
+
+[[skill_groups.skills]]
+skill_name = "Agentic AI Development"
+short_context = "Interested in building multi-step AI workflows that reason, retrieve context, and produce usable outputs"
+related_projects = []
+related_experience = ["Software Development Engineer"]
+
+[[skill_groups]]
+group_name = "Tools & Platforms"
+accent = "jade"
+
+[[skill_groups.skills]]
+skill_name = "OpenTAP"
+short_context = "Used to develop and automate O-RAN M-Plane conformance test cases in production systems"
+related_projects = []
+related_experience = ["Software Development Engineer - OpenTap Automation"]
+
+[[skill_groups.skills]]
+skill_name = "Git"
+short_context = "Used across professional and personal projects for version control and collaboration"
+related_projects = ["Dreamscape Symphony"]
+related_experience = ["Software Development Engineer", "Software Engineer Intern"]
+
+[[skill_groups.skills]]
+skill_name = "CI/CD"
+short_context = "Worked with engineering workflows that support automation, testing, and repeatable delivery"
+related_projects = []
+related_experience = ["Software Development Engineer"]
+
+[[skill_groups.skills]]
+skill_name = "Selenium"
+short_context = "Built scraping and data extraction pipelines during internship work"
+related_projects = []
+related_experience = ["Software Engineer Intern"]
+
+[[skill_groups.skills]]
+skill_name = "GCP / Vertex AI"
+short_context = "Part of the tooling stack used around AI and engineering workflows"
+related_projects = []
+related_experience = ["Software Development Engineer"]
+
+[[skill_groups.skills]]
+skill_name = "Linux"
+short_context = "Worked across Ubuntu, Rocky Linux, and CentOS environments for development and testing"
+related_projects = []
+related_experience = ["Software Development Engineer","Software Engineer Intern"]
+
+[[skill_groups]]
+group_name = "Languages"
+accent = "gold"
+
+[[skill_groups.skills]]
+skill_name = "English"
+short_context = "Used for professional communication, technical documentation, and presentations"
+related_projects = []
+related_experience = ["Software Development Engineer", "Software Engineer Intern"]
+
+[[skill_groups.skills]]
+skill_name = "Hindi"
+short_context = "Fluent working proficiency"
+related_projects = []
+related_experience = []
+
+[[skill_groups.skills]]
+skill_name = "Malayalam"
+short_context = "Fluent working proficiency"
+related_projects = []
+related_experience = []
+
+[[skill_groups.skills]]
+skill_name = "Tamil"
+short_context = "Comfortable spoken proficiency for day-to-day collaboration"
+related_projects = []
+related_experience = []
+
+[[skill_groups.skills]]
+skill_name = "Japanese"
+short_context = "Elementary proficiency (JLPT N5)"
+related_projects = []
+related_experience = ["Japan Asia Youth Exchange Program"]

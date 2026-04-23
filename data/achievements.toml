@@ -1,0 +1,26 @@
+page_title = "Achievements"
+page_intro = "Recognition across academics, research, and competitions"
+
+[[achievement_entries]]
+title = "Gold Medal – NIT Calicut"
+short_description = "Awarded for highest academic performance (CGPA 9.69)"
+optional_image = "/images/gold_medal.JPG"
+optional_context = "Top performer in Electronics and Communication Engineering batch"
+
+[[achievement_entries]]
+title = "CBSE Merit Certificate (Top 0.1%)"
+short_description = "Among top 0.1% nationally for outstanding academic performance"
+optional_image = "/images/CBSE_12.jpg"
+optional_context = "Awarded by CBSE for exceptional board exam results"
+
+[[achievement_entries]]
+title = "National Children’s Science Congress"
+short_description = "Recognized at national-level science research competition"
+optional_image = "/images/National_Childrens_Science_Congress.jpg"
+optional_context = "Selected among top 15 at national stage (DST, Govt. of India)"
+
+[[achievement_entries]]
+title = "SAKURA Science Exchange Program (Japan)"
+short_description = "Selected for international science exchange program"
+optional_image = "/images/JAXA.jpg"
+optional_context = "Joint initiative by Governments of India and Japan"

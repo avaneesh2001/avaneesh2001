@@ -1,0 +1,99 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { getContentFile } from "@lib/content";
+import type { HomeContent } from "../types/content";
+
+const homeContent = getContentFile<HomeContent>("home");
+---
+
+<BaseLayout title="Home" description={homeContent.hero.hero_subheadline} accent="sapphire">
+  <section class="hero-section">
+    <div class="hero-copy" data-reveal>
+      <p class="eyebrow">Portfolio dossier</p>
+      <h1>{homeContent.hero.hero_headline}</h1>
+      <p>{homeContent.hero.hero_subheadline}</p>
+      <div class="button-row">
+        <a class="button button-primary" href={homeContent.hero.primary_cta_href}>{homeContent.hero.primary_cta_label}</a>
+        <a class="button button-secondary" href={homeContent.hero.secondary_cta_href}>{homeContent.hero.secondary_cta_label}</a>
+        <a class="button button-secondary" href={homeContent.hero.linkedin_cta_href}>{homeContent.hero.linkedin_cta_label}</a>
+      </div>
+    </div>
+    <div class="hero-archive" aria-hidden="true" data-reveal>
+      <div class="paper-layer layer-one"></div>
+      <div class="paper-layer layer-two"></div>
+      <div class="paper-layer layer-three">
+        <h3>{homeContent.hero_archive_card.label}</h3>
+        <span>{homeContent.hero_archive_card.line_one }</span>
+        <span>{homeContent.hero_archive_card.line_two }</span>
+        <span>{homeContent.hero_archive_card.line_three }</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="about-scroll-section" aria-labelledby="about-scroll-heading">
+    <article class="about-scroll" data-reveal>
+      <div class="scroll-rod scroll-rod-top" aria-hidden="true"></div>
+      <div class="scroll-paper">
+        <div class="scroll-copy">
+          <p class="eyebrow">{homeContent.about_scroll.eyebrow}</p>
+          <h2 id="about-scroll-heading">{homeContent.about_scroll.headline}</h2>
+          {homeContent.about_scroll.body.split("\n").map((paragraph) => (
+            <p>{paragraph}</p>
+          ))}
+        </div>
+        <aside class="scroll-note">
+          <span></span>
+          <p>{homeContent.about_scroll.side_note}</p>
+        </aside>
+      </div>
+      <div class="scroll-rod scroll-rod-bottom" aria-hidden="true"></div>
+    </article>
+  </section>
+
+  <section class="content-section">
+    <div class="section-heading" data-reveal>
+      <p class="eyebrow">Selected impact</p>
+      <h2>Highlights at a glance</h2>
+    </div>
+    <div class="impact-grid">
+      {homeContent.selected_impact_items.map((impactItem) => (
+        <article class="paper-card impact-card" data-reveal>
+          <span class="card-pin"></span>
+          <h3>{impactItem.title}</h3>
+          <p>{impactItem.description}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="content-section">
+    <div class="section-heading" data-reveal>
+      <p class="eyebrow">Open a file</p>
+      <h2>Explore the archive</h2>
+    </div>
+    <div class="preview-grid">
+      {homeContent.section_preview_cards.map((previewCard) => (
+        <a class={`folder-card accent-${previewCard.accent}`} href={previewCard.href} data-reveal>
+          <span class="folder-tab"></span>
+          <span class="folder-label">{previewCard.title}</span>
+          <strong>{previewCard.description}</strong>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="home-contact-section" aria-label="Contact">
+    <article class="contact-card paper-card" data-reveal>
+      <div>
+        <p class="eyebrow">{homeContent.contact_card.eyebrow}</p>
+        <h2>{homeContent.contact_card.headline}</h2>
+        <p>{homeContent.contact_card.description}</p>
+      </div>
+      <div class="contact-link-stack">
+        <a href={homeContent.contact_card.email_href}>{homeContent.contact_card.email_label}</a>
+        <a href={homeContent.contact_card.linkedin_href}>{homeContent.contact_card.linkedin_label}</a>
+        <a href={homeContent.contact_card.github_href}>{homeContent.contact_card.github_label}</a>
+      </div>
+    </article>
+  </section>
+</BaseLayout>

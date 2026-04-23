@@ -1,0 +1,90 @@
+---
+import ImagePlaceholder from "@components/ImagePlaceholder.astro";
+import PageHeader from "@components/PageHeader.astro";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { getContentFile } from "@lib/content";
+import type { AccentName, ActivitiesContent } from "../types/content";
+
+const activitiesContent = getContentFile<ActivitiesContent>("activities");
+
+const availableActivityAccents: AccentName[] = ["sapphire", "amethyst", "jade", "gold", "teal", "garnet"];
+
+const defaultCategoryAccents: Record<string, AccentName> = {
+  Leadership: "sapphire",
+  Cultural: "amethyst",
+  International: "jade",
+};
+
+const normalizedAccent = (accent: string | undefined, fallback: AccentName): AccentName => {
+  return availableActivityAccents.includes(accent as AccentName) ? accent as AccentName : fallback;
+};
+
+const normalizedImagesForActivity = (activity: ActivitiesContent["activities"][number]) => {
+  if ((activity.image_entries ?? []).length > 0) {
+    return (activity.image_entries ?? [])
+      .filter((imageEntry) => imageEntry.path.trim().length > 0)
+      .map((imageEntry) => ({ path: imageEntry.path, caption: imageEntry.caption ?? "" }));
+  }
+
+  return (activity.images ?? [])
+    .filter((imagePath) => imagePath.trim().length > 0)
+    .map((imagePath) => ({ path: imagePath, caption: "" }));
+};
+
+const activitySections = activitiesContent.activities.reduce<Array<{ title: string; accent: AccentName; activities: ActivitiesContent["activities"] }>>((sections, activity) => {
+  const existingSection = sections.find((section) => section.title === activity.category);
+  const fallbackAccent = defaultCategoryAccents[activity.category] ?? availableActivityAccents[sections.length % availableActivityAccents.length];
+
+  if (existingSection) {
+    existingSection.activities.push(activity);
+    return sections;
+  }
+
+  sections.push({
+    title: activity.category,
+    accent: normalizedAccent(activity.color_tag, fallbackAccent),
+    activities: [activity],
+  });
+
+  return sections;
+}, []);
+---
+
+<BaseLayout title="Activities" description={activitiesContent.page_intro} accent="teal">
+  <PageHeader eyebrow="Field notes" title={activitiesContent.page_title} intro={activitiesContent.page_intro} />
+
+  <section class="activity-journey" aria-label="Activities journey">
+    <svg class="activity-path" viewBox="0 0 120 1000" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M60 0 C8 150 112 250 60 390 C12 520 108 650 60 790 C24 900 84 950 60 1000" />
+    </svg>
+    {activitySections.map((sectionDefinition, sectionIndex) => {
+      const sectionActivities = sectionDefinition.activities;
+      return sectionActivities.length > 0 && (
+        <div class={`activity-section accent-${sectionDefinition.accent}`}>
+          <h2 class="activity-section-title" data-reveal>{sectionDefinition.title}</h2>
+          {sectionActivities.map((activity, activityIndex) => {
+            const activityImages = normalizedImagesForActivity(activity).slice(0, 2);
+
+            return (
+              <article class:list={["journey-card", "paper-card", (sectionIndex + activityIndex) % 2 === 1 && "is-reversed"]} data-reveal>
+                <span class="journey-marker" aria-hidden="true"></span>
+                {activityImages.length > 0 && (
+                  <div class:list={["journey-image-stack", activityImages.length > 1 && "has-multiple-images"]}>
+                    {activityImages.map((imageEntry) => (
+                      <ImagePlaceholder imagePath={imageEntry.path} label="Activity photo" caption={imageEntry.caption} />
+                    ))}
+                  </div>
+                )}
+                <div class="journey-copy">
+                  <p class="eyebrow">{activity.category}</p>
+                  <h3>{activity.title}</h3>
+                  <p>{activity.short_description}</p>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      );
+    })}
+  </section>
+</BaseLayout>

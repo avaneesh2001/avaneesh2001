@@ -1,0 +1,22 @@
+---
+import type { FooterLink, SiteContent } from "../types/content";
+
+interface Props {
+  profile: SiteContent["profile"];
+  links: FooterLink[];
+}
+
+const { profile, links } = Astro.props;
+---
+
+<footer class="site-footer">
+  <div>
+    <p class="footer-kicker">Document archive</p>
+    <p>{profile.name} · {profile.email}</p>
+  </div>
+  <ul class="footer-links" aria-label="Contact links">
+    {links.map((link) => (
+      <li><a href={link.href}>{link.label}</a></li>
+    ))}
+  </ul>
+</footer>

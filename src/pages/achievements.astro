@@ -1,0 +1,27 @@
+---
+import ImagePlaceholder from "@components/ImagePlaceholder.astro";
+import PageHeader from "@components/PageHeader.astro";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { getContentFile } from "@lib/content";
+import type { AchievementsContent } from "../types/content";
+
+const achievementsContent = getContentFile<AchievementsContent>("achievements");
+---
+
+<BaseLayout title="Achievements" description={achievementsContent.page_intro} accent="amber">
+  <PageHeader eyebrow="Recognition ledger" title={achievementsContent.page_title} intro={achievementsContent.page_intro} />
+
+  <section class="achievement-list" aria-label="Achievements">
+    {achievementsContent.achievement_entries.map((achievement) => (
+      <article class:list={["achievement-card", "paper-card", achievement.optional_image && "has-image"]} data-reveal>
+        {achievement.optional_image && <ImagePlaceholder imagePath={achievement.optional_image} label="Achievement image" />}
+        <div class="achievement-copy">
+          <p class="eyebrow">Recognition</p>
+          <h2>{achievement.title}</h2>
+          <p>{achievement.short_description}</p>
+          <p class="supporting-note">{achievement.optional_context}</p>
+        </div>
+      </article>
+    ))}
+  </section>
+</BaseLayout>

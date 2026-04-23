@@ -1,0 +1,103 @@
+---
+import "../styles/global.css";
+import Footer from "@components/Footer.astro";
+import Navigation from "@components/Navigation.astro";
+import { getContentFile } from "@lib/content";
+import type { SiteContent } from "../types/content";
+
+interface Props {
+  title: string;
+  description: string;
+  accent?: string;
+}
+
+const { title, description, accent = "sapphire" } = Astro.props;
+const siteContent = getContentFile<SiteContent>("site");
+const pageTitle = `${title} | ${siteContent.profile.name}`;
+---
+
+<!doctype html>
+<html lang="en" data-accent={accent}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{pageTitle}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="icon" href="/favicon.png" type="image/png" />
+
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <div class="site-shell">
+      <Navigation links={siteContent.navigation_links} profile={siteContent.profile} currentPath={Astro.url.pathname} />
+      <main id="main-content">
+        <slot />
+      </main>
+      <Footer profile={siteContent.profile} links={siteContent.footer_links} />
+    </div>
+    <script>
+      const revealElements = document.querySelectorAll("[data-reveal]");
+      const revealObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.16 }
+      );
+
+      revealElements.forEach((element) => revealObserver.observe(element));
+
+      document.querySelectorAll("[data-fallback-image]").forEach((image) => {
+        const showFallback = () => {
+          if (image instanceof HTMLElement) image.hidden = true;
+        };
+
+        image.addEventListener("error", showFallback);
+        if (image instanceof HTMLImageElement && image.complete && image.naturalWidth === 0) showFallback();
+      });
+
+      document.querySelectorAll("[data-logo-image]").forEach((image) => {
+        const showFallback = () => {
+          if (image instanceof HTMLElement) image.hidden = true;
+          const fallback = image.nextElementSibling;
+          if (fallback instanceof HTMLElement) fallback.style.visibility = "visible";
+        };
+
+        image.addEventListener("error", showFallback);
+        if (image instanceof HTMLImageElement && image.complete && image.naturalWidth === 0) showFallback();
+      });
+
+      document.querySelectorAll("[data-skill-dialog-trigger]").forEach((trigger) => {
+        trigger.addEventListener("click", () => {
+          if (!(trigger instanceof HTMLElement)) return;
+
+          const dialogId = trigger.dataset.skillDialogTrigger;
+          if (!dialogId) return;
+
+          const dialog = document.getElementById(dialogId);
+          if (dialog instanceof HTMLDialogElement) dialog.showModal();
+        });
+      });
+
+      document.querySelectorAll("[data-skill-dialog]").forEach((dialog) => {
+        if (!(dialog instanceof HTMLDialogElement)) return;
+
+        dialog.querySelectorAll("[data-skill-dialog-close]").forEach((closeButton) => {
+          closeButton.addEventListener("click", () => dialog.close());
+        });
+
+        dialog.addEventListener("click", (event) => {
+          if (event.target === dialog) dialog.close();
+        });
+      });
+    </script>
+  </body>
+</html>

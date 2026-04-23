@@ -1,0 +1,65 @@
+page_title = "Activities"
+page_intro = "Leadership, events, and interests beyond core engineering work"
+
+[[activities]]
+title = "SAKURA Science Exchange Program"
+category = "International"
+color_tag = "jade"
+short_description = "Participated in international science exchange program in Japan"
+
+[[activities.image_entries]]
+path = "/images/SAKURA.jpeg"
+caption = "Interacted with leading researchers, such as the Nobel laureate Hideki Shirakawa."
+
+[[activities.image_entries]]
+path = "/images/SAKURA2.jpg"
+caption = "Presentation at Keio University"
+
+
+# Optional captioned image format:
+# [[activities.image_entries]]
+# path = "/images/example.jpg"
+# caption = "Short optional caption"
+
+[[activities]]
+title = "Technical Head – Sanket"
+category = "Leadership"
+color_tag = "sapphire"
+short_description = "Led planning and execution of department techfest, coordinating teams and technical events"
+images = [""]
+
+[[activities]]
+title = "Ignite: techfest"
+category = "Presentation"
+color_tag = "amethyst"
+short_description = "Actively participated during Qualcomm's Ignite TechFest"
+images = ["/images/skit.jpg"]
+
+
+[[activities]]
+title = "Design Head – ECE Association"
+category = "Leadership"
+color_tag = "sapphire"
+short_description = "Managed design and visual identity for events and departmental initiatives"
+images = [""]
+
+[[activities]]
+title = "Karate Black Belt"
+category = "Sports"
+color_tag = "teal"
+short_description = "Achieved black belt, reflecting long-term discipline and consistency"
+images = ["/images/black_belt.png"]
+
+[[activities]]
+title = "Debate, Skit & Extempore"
+category = "Cultural"
+color_tag = "amethyst"
+short_description = "Actively participated and won multiple events across speaking and performance"
+images = ["/images/skit.jpg"]
+
+[[activities]]
+title = "Disha 2023"
+category = "Presentation"
+color_tag = "amethyst"
+short_description = "Helped students decide the course of their studies durring Disha 2023 organized by Govt. of Kerala"
+images = ["/images/Disha.jpg"]

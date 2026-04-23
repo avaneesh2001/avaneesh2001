@@ -1,0 +1,56 @@
+page_title = "Projects"
+page_intro = "Selected work across AI systems, backend engineering, and experimental builds"
+
+[[featured_projects]]
+project_title = "Dreamscape Symphony"
+short_description = "AI system that transforms dreams into lyrics, audio, and visual outputs"
+impact_statement = "Explores multi-stage generative pipelines combining LLMs, TTS, and media models"
+technology_tags = ["Python", "LLMs", "NLP", "TTS", "Streamlit"]
+optional_image = "/projects/image.png"
+
+[[featured_projects.project_links]]
+label = "GitHub"
+href = "https://github.com/avaneesh2001/dreamscape-symphony"
+
+[[featured_projects.project_links]]
+label = "Demo"
+href = "https://dreamscape-symphony.streamlit.app/"
+
+[[featured_projects]]
+project_title = "AI Speech Video Generation"
+short_description = "Multi-stage system for generating videos from speech and visual inputs"
+impact_statement = "Focuses on model integration, media pipelines, and output consistency"
+technology_tags = ["Python", "GANs", "Computer Vision", "Pipelines"]
+optional_image = "/projects/talking_face.png"
+
+
+[[project_archive]]
+title = "Bird Identification System"
+brief_description = "CNN-based image classification system focused on feature extraction and accuracy"
+github_link = "https://github.com/avaneesh2001/Madhura-Sruthi-Bird-Prediction-using-AI"
+
+[[project_archive]]
+title = "Visual Cryptography for Biometric Privacy"
+brief_description = "A Access control ID System using Visual Cryptography and LSB Watermarking"
+github_link = "https://github.com/avaneesh2001/Novel-Access-control-ID-System-using-Visual-Cryptography-and-LSB-Watermarking"
+
+[[project_archive]]
+title = "Sun Tracking Solar Panel"
+brief_description = "Embedded system that tracks sunlight using sensors and microcontroller logic"
+github_link = "https://github.com/avaneesh2001/SUN-TRACKING-SOLAR-PANEL"
+
+[[project_archive]]
+title = "Adaptive Median and Median Filtering"
+brief_description = "Removine salt and pepper noise using median and adaptive median filter in MATLAB"
+github_link = "https://github.com/avaneesh2001/Adaptive-median-and-median-filtering"
+
+[[project_archive]]
+title = "Visual Novel (Ren'Py)"
+brief_description = "Interactive storytelling system built using Python and Ren’Py"
+github_link = "https://terrasen001.itch.io/shadows-defy-the-night"
+
+
+[[project_archive]]
+title = "Facial Expression Recognition with CNNs"
+brief_description = "Effective face recognition using Convolutional Neural Networks"
+github_link = "https://github.com/avaneesh2001/Facial-Expression-Recognition-with-CNNs"
