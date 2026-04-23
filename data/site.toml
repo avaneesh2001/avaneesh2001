@@ -2,35 +2,35 @@
 name = "R Avaneesh"
 professional_identity = "AI • Telecom • Automation"
 email = "ravaneesh1@gmail.com"
-resume_url = "/resume.pdf"
+resume_url = "/avaneesh2001/resume.pdf"
 
 [[navigation_links]]
 label = "Home"
-href = "/"
+href = "/avaneesh2001/"
 
 [[navigation_links]]
 label = "Experience"
-href = "/experience/"
+href = "/avaneesh2001/experience/"
 
 [[navigation_links]]
 label = "Skills"
-href = "/skills/"
+href = "/avaneesh2001/skills/"
 
 [[navigation_links]]
 label = "Projects"
-href = "/projects/"
+href = "/avaneesh2001/projects/"
 
 [[navigation_links]]
 label = "Education"
-href = "/education/"
+href = "/avaneesh2001/education/"
 
 [[navigation_links]]
 label = "Achievements"
-href = "/achievements/"
+href = "/avaneesh2001/achievements/"
 
 [[navigation_links]]
 label = "Activities"
-href = "/activities/"
+href = "/avaneesh2001/activities/"
 
 [[footer_links]]
 label = "Email"
@@ -46,4 +46,4 @@ href = "https://linkedin.com/in/avaneesh-rs"
 
 [[footer_links]]
 label = "Resume"
-href = "/resume.pdf"
+href = "/avaneesh2001/resume.pdf"

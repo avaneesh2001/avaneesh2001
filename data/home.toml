@@ -3,7 +3,7 @@ hero_headline = "R Avaneesh"
 hero_subheadline = """Software Engineer building backend systems, automation frameworks, and AI-powered developer tools.
 Focused on turning complex codebases into scalable, reliable systems."""
 primary_cta_label = "Resume"
-primary_cta_href = "/resume.pdf"
+primary_cta_href = "/avaneesh2001/resume.pdf"
 secondary_cta_label = "GitHub"
 secondary_cta_href = "https://github.com/avaneesh2001"
 linkedin_cta_label = "LinkedIn"
@@ -56,17 +56,17 @@ description = "Turned large, messy codebases into fast, queryable systems"
 [[section_preview_cards]]
 title = "Experience"
 description = "Backend systems, telecom automation, and LLM-driven engineering work"
-href = "/experience/"
+href = "/avaneesh2001/experience/"
 accent = "sapphire"
 
 [[section_preview_cards]]
 title = "Projects"
 description = "AI systems, developer tools, and experimental builds"
-href = "/projects/"
+href = "/avaneesh2001/projects/"
 accent = "emerald"
 
 [[section_preview_cards]]
 title = "Activities"
 description = "Leadership, events, and creative involvement beyond engineering"
-href = "/activities/"
+href = "/avaneesh2001/activities/"
 accent = "garnet"

@@ -6,7 +6,7 @@ project_title = "Dreamscape Symphony"
 short_description = "AI system that transforms dreams into lyrics, audio, and visual outputs"
 impact_statement = "Explores multi-stage generative pipelines combining LLMs, TTS, and media models"
 technology_tags = ["Python", "LLMs", "NLP", "TTS", "Streamlit"]
-optional_image = "/projects/image.png"
+optional_image = "/avaneesh2001/projects/image.png"
 
 [[featured_projects.project_links]]
 label = "GitHub"
@@ -21,7 +21,7 @@ project_title = "AI Speech Video Generation"
 short_description = "Multi-stage system for generating videos from speech and visual inputs"
 impact_statement = "Focuses on model integration, media pipelines, and output consistency"
 technology_tags = ["Python", "GANs", "Computer Vision", "Pipelines"]
-optional_image = "/projects/talking_face.png"
+optional_image = "/avaneesh2001/projects/talking_face.png"
 
 
 [[project_archive]]

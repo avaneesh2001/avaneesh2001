@@ -6,7 +6,6 @@ import { getContentFile } from "@lib/content";
 import type { AccentName, ActivitiesContent } from "../types/content";
 
 const activitiesContent = getContentFile<ActivitiesContent>("activities");
-const currentPath = Astro.url.pathname;
 
 const availableActivityAccents: AccentName[] = ["sapphire", "amethyst", "jade", "gold", "teal", "garnet"];
 
@@ -72,7 +71,7 @@ const activitySections = activitiesContent.activities.reduce<Array<{ title: stri
                 {activityImages.length > 0 && (
                   <div class:list={["journey-image-stack", activityImages.length > 1 && "has-multiple-images"]}>
                     {activityImages.map((imageEntry) => (
-                      <ImagePlaceholder imagePath={imageEntry.path} label="Activity photo" caption={imageEntry.caption} currentPath={currentPath} />
+                      <ImagePlaceholder imagePath={imageEntry.path} label="Activity photo" caption={imageEntry.caption} />
                     ))}
                   </div>
                 )}

@@ -1,11 +1,9 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
 import { getContentFile } from "@lib/content";
-import { toRelativeUrl } from "@lib/paths";
 import type { HomeContent } from "../types/content";
 
 const homeContent = getContentFile<HomeContent>("home");
-const currentPath = Astro.url.pathname;
 ---
 
 <BaseLayout title="Home" description={homeContent.hero.hero_subheadline} accent="sapphire">
@@ -15,9 +13,9 @@ const currentPath = Astro.url.pathname;
       <h1>{homeContent.hero.hero_headline}</h1>
       <p>{homeContent.hero.hero_subheadline}</p>
       <div class="button-row">
-        <a class="button button-primary" href={toRelativeUrl(currentPath, homeContent.hero.primary_cta_href)}>{homeContent.hero.primary_cta_label}</a>
-        <a class="button button-secondary" href={toRelativeUrl(currentPath, homeContent.hero.secondary_cta_href)}>{homeContent.hero.secondary_cta_label}</a>
-        <a class="button button-secondary" href={toRelativeUrl(currentPath, homeContent.hero.linkedin_cta_href)}>{homeContent.hero.linkedin_cta_label}</a>
+        <a class="button button-primary" href={homeContent.hero.primary_cta_href}>{homeContent.hero.primary_cta_label}</a>
+        <a class="button button-secondary" href={homeContent.hero.secondary_cta_href}>{homeContent.hero.secondary_cta_label}</a>
+        <a class="button button-secondary" href={homeContent.hero.linkedin_cta_href}>{homeContent.hero.linkedin_cta_label}</a>
       </div>
     </div>
     <div class="hero-archive" aria-hidden="true" data-reveal>
@@ -75,7 +73,7 @@ const currentPath = Astro.url.pathname;
     </div>
     <div class="preview-grid">
       {homeContent.section_preview_cards.map((previewCard) => (
-        <a class={`folder-card accent-${previewCard.accent}`} href={toRelativeUrl(currentPath, previewCard.href)} data-reveal>
+        <a class={`folder-card accent-${previewCard.accent}`} href={previewCard.href} data-reveal>
           <span class="folder-tab"></span>
           <span class="folder-label">{previewCard.title}</span>
           <strong>{previewCard.description}</strong>
@@ -92,9 +90,9 @@ const currentPath = Astro.url.pathname;
         <p>{homeContent.contact_card.description}</p>
       </div>
       <div class="contact-link-stack">
-        <a href={toRelativeUrl(currentPath, homeContent.contact_card.email_href)}>{homeContent.contact_card.email_label}</a>
-        <a href={toRelativeUrl(currentPath, homeContent.contact_card.linkedin_href)}>{homeContent.contact_card.linkedin_label}</a>
-        <a href={toRelativeUrl(currentPath, homeContent.contact_card.github_href)}>{homeContent.contact_card.github_label}</a>
+        <a href={homeContent.contact_card.email_href}>{homeContent.contact_card.email_label}</a>
+        <a href={homeContent.contact_card.linkedin_href}>{homeContent.contact_card.linkedin_label}</a>
+        <a href={homeContent.contact_card.github_href}>{homeContent.contact_card.github_label}</a>
       </div>
     </article>
   </section>

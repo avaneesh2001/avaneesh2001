@@ -1,20 +1,17 @@
 ---
-import { toRelativeUrl } from "@lib/paths";
-
 interface Props {
   imagePath?: string;
   label: string;
   caption?: string;
-  currentPath: string;
 }
 
-const { imagePath = "", label, caption, currentPath } = Astro.props;
+const { imagePath = "", label, caption } = Astro.props;
 ---
 
 {imagePath ? (
   <figure class="image-frame">
     <div class="image-visual">
-      <img class="archive-image" src={toRelativeUrl(currentPath, imagePath)} alt={label} loading="lazy" data-fallback-image />
+      <img class="archive-image" src={imagePath} alt={label} loading="lazy" data-fallback-image />
     </div>
     {caption && <figcaption class="image-caption">{caption}</figcaption>}
   </figure>

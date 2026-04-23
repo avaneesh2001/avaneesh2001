@@ -1,14 +1,12 @@
 ---
 import type { FooterLink, SiteContent } from "../types/content";
-import { toRelativeUrl } from "@lib/paths";
 
 interface Props {
   profile: SiteContent["profile"];
   links: FooterLink[];
-  currentPath: string;
 }
 
-const { profile, links, currentPath } = Astro.props;
+const { profile, links } = Astro.props;
 ---
 
 <footer class="site-footer">
@@ -18,7 +16,7 @@ const { profile, links, currentPath } = Astro.props;
   </div>
   <ul class="footer-links" aria-label="Contact links">
     {links.map((link) => (
-      <li><a href={toRelativeUrl(currentPath, link.href)}>{link.label}</a></li>
+      <li><a href={link.href}>{link.label}</a></li>
     ))}
   </ul>
 </footer>

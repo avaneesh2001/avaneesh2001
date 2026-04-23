@@ -6,7 +6,6 @@ import { getContentFile } from "@lib/content";
 import type { AchievementsContent } from "../types/content";
 
 const achievementsContent = getContentFile<AchievementsContent>("achievements");
-const currentPath = Astro.url.pathname;
 ---
 
 <BaseLayout title="Achievements" description={achievementsContent.page_intro} accent="amber">
@@ -15,7 +14,7 @@ const currentPath = Astro.url.pathname;
   <section class="achievement-list" aria-label="Achievements">
     {achievementsContent.achievement_entries.map((achievement) => (
       <article class:list={["achievement-card", "paper-card", achievement.optional_image && "has-image"]} data-reveal>
-        {achievement.optional_image && <ImagePlaceholder imagePath={achievement.optional_image} label="Achievement image" currentPath={currentPath} />}
+        {achievement.optional_image && <ImagePlaceholder imagePath={achievement.optional_image} label="Achievement image" />}
         <div class="achievement-copy">
           <p class="eyebrow">Recognition</p>
           <h2>{achievement.title}</h2>

@@ -7,7 +7,6 @@ import type { EducationContent } from "../types/content";
 
 const educationContent = getContentFile<EducationContent>("education");
 const education = educationContent.education_details;
-const currentPath = Astro.url.pathname;
 ---
 
 <BaseLayout title="Education" description={educationContent.page_intro} accent="teal">
@@ -25,6 +24,6 @@ const currentPath = Astro.url.pathname;
         </ul>
       )}
     </div>
-    <ImagePlaceholder imagePath={education.optional_image} label="Education image" currentPath={currentPath} />
+    <ImagePlaceholder imagePath={education.optional_image} label="Education image" />
   </section>
 </BaseLayout>

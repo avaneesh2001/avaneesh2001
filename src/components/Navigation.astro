@@ -1,6 +1,6 @@
 ---
 import type { NavigationLink, SiteContent } from "../types/content";
-import { toRelativeUrl, withoutBase } from "@lib/paths";
+import { withoutBase } from "@lib/paths";
 
 interface Props {
   links: NavigationLink[];
@@ -20,9 +20,9 @@ const isActiveLink = (href: string) => {
 
 <header class="navigation-frame">
   <nav class="navigation" aria-label="Primary navigation">
-    <a class="brand-mark" href={toRelativeUrl(currentPath, "/")} aria-label={`${profile.name} home`}>
+    <a class="brand-mark" href="/avaneesh2001/" aria-label={`${profile.name} home`}>
       <span class="brand-logo-frame">
-        <img class="brand-logo" src={toRelativeUrl(currentPath, "/logo.png")} alt="" loading="eager" data-logo-image />
+        <img class="brand-logo" src="/avaneesh2001/logo.png" alt="" loading="eager" data-logo-image />
         <span class="brand-monogram">{profile.name.slice(0, 1)}</span>
       </span>
       <span class="brand-text">
@@ -32,7 +32,7 @@ const isActiveLink = (href: string) => {
     </a>
     <div class="navigation-links">
       {links.map((link) => (
-        <a href={toRelativeUrl(currentPath, link.href)} class:list={["nav-link", { "is-active": isActiveLink(link.href) }]} aria-current={isActiveLink(link.href) ? "page" : undefined}>
+        <a href={link.href} class:list={["nav-link", { "is-active": isActiveLink(link.href) }]} aria-current={isActiveLink(link.href) ? "page" : undefined}>
           {link.label}
         </a>
       ))}

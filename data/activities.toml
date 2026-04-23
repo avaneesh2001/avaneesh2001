@@ -8,11 +8,11 @@ color_tag = "jade"
 short_description = "Participated in international science exchange program in Japan"
 
 [[activities.image_entries]]
-path = "/images/SAKURA.jpeg"
+path = "/avaneesh2001/images/SAKURA.jpeg"
 caption = "Interacted with leading researchers, such as the Nobel laureate Hideki Shirakawa."
 
 [[activities.image_entries]]
-path = "/images/SAKURA2.jpg"
+path = "/avaneesh2001/images/SAKURA2.jpg"
 caption = "Presentation at Keio University"
 
 
@@ -33,7 +33,7 @@ title = "Ignite: techfest"
 category = "Presentation"
 color_tag = "amethyst"
 short_description = "Actively participated during Qualcomm's Ignite TechFest"
-images = ["/images/skit.jpg"]
+images = ["/avaneesh2001/images/skit.jpg"]
 
 
 [[activities]]
@@ -48,18 +48,18 @@ title = "Karate Black Belt"
 category = "Sports"
 color_tag = "teal"
 short_description = "Achieved black belt, reflecting long-term discipline and consistency"
-images = ["/images/black_belt.png"]
+images = ["/avaneesh2001/images/black_belt.png"]
 
 [[activities]]
 title = "Debate, Skit & Extempore"
 category = "Cultural"
 color_tag = "amethyst"
 short_description = "Actively participated and won multiple events across speaking and performance"
-images = ["/images/skit.jpg"]
+images = ["/avaneesh2001/images/skit.jpg"]
 
 [[activities]]
 title = "Disha 2023"
 category = "Presentation"
 color_tag = "amethyst"
 short_description = "Helped students decide the course of their studies durring Disha 2023 organized by Govt. of Kerala"
-images = ["/images/Disha.jpg"]
+images = ["/avaneesh2001/images/Disha.jpg"]

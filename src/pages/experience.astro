@@ -6,7 +6,6 @@ import { getContentFile } from "@lib/content";
 import type { ExperienceContent } from "../types/content";
 
 const experienceContent = getContentFile<ExperienceContent>("experience");
-const currentPath = Astro.url.pathname;
 ---
 
 <BaseLayout title="Experience" description={experienceContent.page_intro} accent="sapphire">
@@ -36,7 +35,7 @@ const currentPath = Astro.url.pathname;
                 {entry.detailed_bullets.map((bullet) => <li>{bullet}</li>)}
               </ul>
             </div>
-            <ImagePlaceholder imagePath={entry.optional_image} label="Experience visual" currentPath={currentPath} />
+            <ImagePlaceholder imagePath={entry.optional_image} label="Experience visual" />
           </div>
         </details>
       </article>

@@ -6,7 +6,7 @@ institution_name = "National Institute of Technology Calicut"
 degree_name = "B.Tech in Electronics and Communication Engineering"
 study_period = "2019 – 2023"
 short_highlight = "Gold Medalist (Top Performer in batch, CGPA 9.69)"
-optional_image = "/images/graduation.JPG"
+optional_image = "/avaneesh2001/images/graduation.JPG"
 
 [[education_details.additional_points]]
 point = "Built foundation in control systems, communication systems, and signal processing"
