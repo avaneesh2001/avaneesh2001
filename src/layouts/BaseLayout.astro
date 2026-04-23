@@ -3,7 +3,7 @@ import "../styles/global.css";
 import Footer from "@components/Footer.astro";
 import Navigation from "@components/Navigation.astro";
 import { getContentFile } from "@lib/content";
-import { withBase } from "@lib/paths";
+import { toRelativeUrl } from "@lib/paths";
 import type { SiteContent } from "../types/content";
 
 interface Props {
@@ -15,6 +15,7 @@ interface Props {
 const { title, description, accent = "sapphire" } = Astro.props;
 const siteContent = getContentFile<SiteContent>("site");
 const pageTitle = `${title} | ${siteContent.profile.name}`;
+const currentPath = Astro.url.pathname;
 ---
 
 <!doctype html>
@@ -28,17 +29,17 @@ const pageTitle = `${title} | ${siteContent.profile.name}`;
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <link rel="icon" href={withBase("/favicon.png")} type="image/png" />
+    <link rel="icon" href={toRelativeUrl(currentPath, "/favicon.png")} type="image/png" />
 
   </head>
   <body>
     <a class="skip-link" href="#main-content">Skip to content</a>
     <div class="site-shell">
-      <Navigation links={siteContent.navigation_links} profile={siteContent.profile} currentPath={Astro.url.pathname} />
+      <Navigation links={siteContent.navigation_links} profile={siteContent.profile} currentPath={currentPath} />
       <main id="main-content">
         <slot />
       </main>
-      <Footer profile={siteContent.profile} links={siteContent.footer_links} />
+      <Footer profile={siteContent.profile} links={siteContent.footer_links} currentPath={currentPath} />
     </div>
     <script>
       const revealElements = document.querySelectorAll("[data-reveal]");

@@ -7,6 +7,7 @@ import { getContentFile } from "@lib/content";
 import type { ProjectsContent } from "../types/content";
 
 const projectsContent = getContentFile<ProjectsContent>("projects");
+const currentPath = Astro.url.pathname;
 
 const hasProjectLink = (href: string) => href.trim().length > 0;
 ---
@@ -22,7 +23,7 @@ const hasProjectLink = (href: string) => href.trim().length > 0;
     <div class="featured-project-grid">
       {projectsContent.featured_projects.map((project) => (
         <article class="project-card paper-card" data-reveal>
-          <ImagePlaceholder imagePath={project.optional_image} label="Project visual" />
+          <ImagePlaceholder imagePath={project.optional_image} label="Project visual" currentPath={currentPath} />
           <div class="project-card-body">
             <h3>{project.project_title}</h3>
             <p>{project.short_description}</p>
