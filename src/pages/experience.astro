@@ -27,7 +27,7 @@ const experienceContent = getContentFile<ExperienceContent>("experience");
           {entry.visible_bullets.map((bullet) => <li>{bullet}</li>)}
         </ul>
         <details class="details-dossier">
-          <summary>Read deeper notes</summary>
+          <summary>Read deeper notes<span class="visually-hidden"> about {entry.role_title} at {entry.organization_name}</span></summary>
           <div class="details-content">
             <div>
               <p>{entry.optional_longer_explanation}</p>

@@ -15,7 +15,7 @@
   --emerald: var(--jade);
   --amethyst: #6b4b78;
   --garnet: #7a3345;
-  --gold: #9a7430;
+  --gold: #75551f;
   --amber: var(--gold);
   --teal: #2f6f71;
   --body-font: "Source Sans 3", "Segoe UI", sans-serif;
@@ -40,7 +40,7 @@ html {
 
 body {
   margin: 0;
-  min-width: 320px;
+  overflow-wrap: anywhere;
   color: var(--ink);
   font-family: var(--body-font);
   font-size: 18px;
@@ -110,7 +110,7 @@ a {
 }
 
 :focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--accent), white 18%);
+  outline: 3px solid var(--accent);
   outline-offset: 4px;
 }
 
@@ -1404,8 +1404,8 @@ a {
 }
 
 [data-reveal] {
-  opacity: 0;
-  transform: translateY(18px);
+  opacity: 1;
+  transform: none;
   transition: opacity 560ms ease, transform 560ms ease, border-color 560ms ease;
 }
 
@@ -1590,4 +1590,41 @@ a {
   .footer-links {
     justify-content: flex-start;
   }
+}
+
+/* Keep controls and content usable with keyboard, touch, zoom and forced colors. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+main { scroll-margin-top: 8rem; }
+.navigation :focus-visible { outline-color: #fbf7ee; }
+.nav-link, .skill-dialog-close { min-width: 44px; min-height: 44px; }
+.nav-link { display: inline-flex; align-items: center; }
+summary { min-height: 44px; cursor: pointer; }
+.text-link-row a, .footer-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+.text-link-row a, .footer-links a, .contact-links a {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+.skill-dialog { overflow-y: auto; overscroll-behavior: contain; }
+@media (max-width: 920px), (max-height: 500px) {
+  .navigation-frame { position: relative; }
+  main { scroll-margin-top: 1rem; }
+}
+@media (forced-colors: active) {
+  :focus-visible { outline: 3px solid Highlight; }
+  .nav-link[aria-current="page"] { border: 2px solid currentColor; }
+  .button, .skill-dialog, .skill-dialog-close { border: 1px solid ButtonText; }
 }

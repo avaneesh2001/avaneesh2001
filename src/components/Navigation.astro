@@ -1,4 +1,5 @@
 ---
+import SiteImage from "./SiteImage.astro";
 import type { NavigationLink, SiteContent } from "../types/content";
 import { withoutBase } from "@lib/paths";
 
@@ -13,8 +14,9 @@ const { links, profile, currentPath } = Astro.props;
 const normalizedCurrentPath = withoutBase(currentPath);
 
 const isActiveLink = (href: string) => {
-  if (href === "/") return normalizedCurrentPath === "/";
-  return normalizedCurrentPath.startsWith(href);
+  const path = withoutBase(href);
+  if (path === "/") return normalizedCurrentPath === "/";
+  return normalizedCurrentPath === path || normalizedCurrentPath.startsWith(`${path.replace(/\/$/, "")}/`);
 };
 ---
 
@@ -22,7 +24,7 @@ const isActiveLink = (href: string) => {
   <nav class="navigation" aria-label="Primary navigation">
     <a class="brand-mark" href="/avaneesh2001/" aria-label={`${profile.name} home`}>
       <span class="brand-logo-frame">
-        <img class="brand-logo" src="/avaneesh2001/logo.png" alt="" loading="eager" data-logo-image />
+        <SiteImage class="brand-logo" src="/avaneesh2001/logo.png" alt="" loading="eager" data-logo-image />
         <span class="brand-monogram">{profile.name.slice(0, 1)}</span>
       </span>
       <span class="brand-text">

@@ -22,7 +22,7 @@ const hasProjectLink = (href: string) => href.trim().length > 0;
     <div class="featured-project-grid">
       {projectsContent.featured_projects.map((project) => (
         <article class="project-card paper-card" data-reveal>
-          <ImagePlaceholder imagePath={project.optional_image} label="Project visual" />
+          <ImagePlaceholder imagePath={project.optional_image} label={`${project.project_title} project preview`} />
           <div class="project-card-body">
             <h3>{project.project_title}</h3>
             <p>{project.short_description}</p>
@@ -30,7 +30,7 @@ const hasProjectLink = (href: string) => href.trim().length > 0;
             <TagList tags={project.technology_tags} />
             {(project.project_links ?? []).some((link) => hasProjectLink(link.href)) && (
               <div class="text-link-row">
-                {(project.project_links ?? []).filter((link) => hasProjectLink(link.href)).map((link) => <a href={link.href}>{link.label}</a>)}
+                {(project.project_links ?? []).filter((link) => hasProjectLink(link.href)).map((link) => <a href={link.href} aria-label={`${link.label}: ${project.project_title}`}>{link.label}</a>)}
               </div>
             )}
           </div>

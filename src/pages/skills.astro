@@ -22,17 +22,17 @@ const skillsContent = getContentFile<SkillsContent>("skills");
             const dialogId = `skill-dialog-${skillGroup.group_name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${skillIndex}`;
             return (
             <article class="capability-document">
-              <button class="capability-button" type="button" data-skill-dialog-trigger={dialogId}>
+              <button class="capability-button" type="button" aria-haspopup="dialog" aria-controls={dialogId} data-skill-dialog-trigger={dialogId}>
                 <span class="skill-name-dot"></span>
                 <span>{skill.skill_name}</span>
               </button>
-              <dialog id={dialogId} class={`skill-dialog accent-${skillGroup.accent}`} data-skill-dialog>
+              <dialog id={dialogId} class={`skill-dialog accent-${skillGroup.accent}`} aria-labelledby={`${dialogId}-title`} aria-describedby={`${dialogId}-description`} data-skill-dialog>
                 <div class="skill-dialog-panel">
-                  <button class="skill-dialog-close" type="button" aria-label="Close skill details" data-skill-dialog-close>x</button>
+                  <button class="skill-dialog-close" type="button" aria-label="Close skill details" data-skill-dialog-close autofocus>×</button>
                   <p class="eyebrow">{skillGroup.group_name}</p>
-                  <h3>{skill.skill_name}</h3>
+                  <h3 id={`${dialogId}-title`}>{skill.skill_name}</h3>
                   <div class="capability-proof-panel">
-                <p>{skill.short_context}</p>
+                <p id={`${dialogId}-description`}>{skill.short_context}</p>
                 <dl class="capability-proof-list">
                   {skill.related_projects.length > 0 && (
                     <div>

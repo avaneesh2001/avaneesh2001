@@ -71,7 +71,7 @@ const activitySections = activitiesContent.activities.reduce<Array<{ title: stri
                 {activityImages.length > 0 && (
                   <div class:list={["journey-image-stack", activityImages.length > 1 && "has-multiple-images"]}>
                     {activityImages.map((imageEntry) => (
-                      <ImagePlaceholder imagePath={imageEntry.path} label="Activity photo" caption={imageEntry.caption} />
+                      <ImagePlaceholder imagePath={imageEntry.path} label={imageEntry.caption || activity.title} caption={imageEntry.caption} />
                     ))}
                   </div>
                 )}

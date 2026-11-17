@@ -1,4 +1,5 @@
 ---
+import SiteImage from "./SiteImage.astro";
 interface Props {
   imagePath?: string;
   label: string;
@@ -11,7 +12,7 @@ const { imagePath = "", label, caption } = Astro.props;
 {imagePath ? (
   <figure class="image-frame">
     <div class="image-visual">
-      <img class="archive-image" src={imagePath} alt={label} loading="lazy" data-fallback-image />
+      <SiteImage class="archive-image" src={imagePath} alt={label} loading="lazy" data-fallback-image />
     </div>
     {caption && <figcaption class="image-caption">{caption}</figcaption>}
   </figure>
