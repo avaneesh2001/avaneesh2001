@@ -5,38 +5,37 @@ page_intro = "Selected work across AI systems, backend engineering, and experime
 project_title = "Dreamscape Symphony"
 short_description = "AI system that transforms dreams into lyrics, audio, and visual outputs"
 impact_statement = "Explores multi-stage generative pipelines combining LLMs, TTS, and media models"
-technology_tags = ["Python", "LLMs", "NLP", "TTS", "Streamlit"]
+technology_tags = [ "Python", "LLMs", "NLP", "TTS", "Streamlit" ]
 optional_image = "projects/image.png"
 optional_image_alt = "Dreamscape Symphony app screen with fields to enter a dream and upload an image"
 
-[[featured_projects.project_links]]
-label = "GitHub"
-href = "https://github.com/avaneesh2001/dreamscape-symphony"
+  [[featured_projects.project_links]]
+  label = "GitHub"
+  href = "https://github.com/avaneesh2001/dreamscape-symphony"
 
-[[featured_projects.project_links]]
-label = "Demo"
-href = "https://dreamscape-symphony.streamlit.app/"
+  [[featured_projects.project_links]]
+  label = "Demo"
+  href = "https://dreamscape-symphony.streamlit.app/"
 
 [[featured_projects]]
 project_title = "AI Speech Video Generation"
 short_description = "Multi-stage system for generating videos from speech and visual inputs"
 impact_statement = "Focuses on model integration, media pipelines, and output consistency"
-technology_tags = ["Python", "GANs", "Computer Vision", "Pipelines"]
+technology_tags = [ "Python", "GANs", "Computer Vision", "Pipelines" ]
 optional_image = "projects/talking_face.png"
 optional_image_alt = "Model architecture: speech, image and emotion encoders feeding a GAN generator with frame and emotion discriminators"
-
 
 [[featured_projects]]
 project_title = "Multilingual RAG QA System"
 short_description = "Question answering that combines web search and knowledge sources to generate grounded answers"
 impact_statement = "Modular backend pipeline with parallel retrieval, vector search, and reranking for more relevant responses"
-technology_tags = ["Python", "RAG", "LLMs", "Vector search", "Reranking"]
-optional_image = ""
+technology_tags = [ "Python", "RAG", "LLMs", "Vector search", "Reranking" ]
+optional_image = "/projects/rag-demo.png"
+optional_image_alt = "A Demonstration"
 
-[[featured_projects.project_links]]
-label = "Demo"
-href = "https://multilingual-ai-answer-bot.streamlit.app/"
-
+  [[featured_projects.project_links]]
+  label = "Demo"
+  href = "https://multilingual-ai-answer-bot.streamlit.app/"
 
 [[project_archive]]
 title = "Bird Identification System"
@@ -62,7 +61,6 @@ github_link = "https://github.com/avaneesh2001/Adaptive-median-and-median-filter
 title = "Visual Novel (Ren'Py)"
 brief_description = "Interactive storytelling system built using Python and Ren’Py"
 github_link = "https://terrasen001.itch.io/shadows-defy-the-night"
-
 
 [[project_archive]]
 title = "Facial Expression Recognition with CNNs"

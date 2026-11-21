@@ -6,29 +6,43 @@ institution_name = "National Institute of Technology Calicut"
 degree_name = "B.Tech in Electronics and Communication Engineering"
 study_period = "2019 – 2023"
 short_highlight = "Gold Medalist (Top Performer in batch, CGPA 9.69)"
-optional_image = "images/graduation.JPG"
-optional_image_alt = "Receiving my degree on stage at the NIT Calicut convocation"
+optional_image = "/images/convocation.jpg"
+optional_image_alt = "Receiving my degree at the NIT Calicut convocation"
 
-[[education_details.additional_points]]
-point = "Built foundation in control systems, communication systems, and signal processing"
+  [[education_details.additional_points]]
+  point = "Built foundation in control systems, communication systems, and signal processing"
 
-[[education_details.additional_points]]
-point = "Worked on projects across AI/ML, embedded systems, and software engineering"
+  [[education_details.additional_points]]
+  point = "Worked on projects across AI/ML, embedded systems, and software engineering"
 
-[[education_details.additional_points]]
-point = "Technical Head – Sanket (department techfest), led planning and execution"
+  [[education_details.additional_points]]
+  point = "Technical Head – Sanket (department techfest), led planning and execution"
 
-[[education_details.additional_points]]
-point = "Design Head – ECE Association, handled visual and event design initiatives"
+  [[education_details.additional_points]]
+  point = "Design Head – ECE Association, handled visual and event design initiatives"
 
-[[education_details.additional_points]]
-point = "Core Mathematics & Systems"
-subpoints = ["Linear Algebra", "Probability and Random Processes", "Signals and Systems", "Control Systems"]
+  [[education_details.additional_points]]
+  point = "Core Mathematics & Systems"
+  subpoints = [
+  "Linear Algebra",
+  "Probability and Random Processes",
+  "Signals and Systems",
+  "Control Systems"
+]
 
-[[education_details.additional_points]]
-point = "Computing & AI Foundations"
-subpoints = ["Data Structures and Algorithms", "Introduction to Machine Learning", "Digital Signal Processing", "Computer Networks"]
+  [[education_details.additional_points]]
+  point = "Computing & AI Foundations"
+  subpoints = [
+  "Data Structures and Algorithms",
+  "Introduction to Machine Learning",
+  "Digital Signal Processing",
+  "Computer Networks"
+]
 
-[[education_details.additional_points]]
-point = "Hardware & Embedded Systems"
-subpoints = ["Embedded Systems and Microcontrollers", "Digital Electronics", "Microprocessor Systems"]
+  [[education_details.additional_points]]
+  point = "Hardware & Embedded Systems"
+  subpoints = [
+  "Embedded Systems and Microcontrollers",
+  "Digital Electronics",
+  "Microprocessor Systems"
+]
