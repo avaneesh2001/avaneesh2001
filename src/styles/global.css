@@ -135,26 +135,6 @@ a {
   margin: 0 auto;
 }
 
-.navigation-frame {
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  padding: 1rem 0;
-  backdrop-filter: blur(18px);
-}
-
-.navigation {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 0.7rem;
-  background: rgba(28, 60, 78, 0.88);
-  border: 1px solid rgba(18, 39, 51, 0.45);
-  border-radius: var(--radius);
-  box-shadow: 0 14px 32px rgba(20, 38, 48, 0.24);
-}
-
 .brand-mark {
   display: flex;
   align-items: center;
@@ -205,47 +185,6 @@ a {
   font-family: var(--heading-font);
   background: var(--ink);
   border-radius: 50%;
-}
-
-.brand-text {
-  display: grid;
-  line-height: 1.1;
-}
-
-.brand-text small {
-  max-width: 22ch;
-  overflow: hidden;
-  color: rgba(236, 242, 240, 0.76);
-  font-size: 0.76rem;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.brand-text strong {
-  color: var(--paper-soft);
-}
-
-.navigation-links {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  gap: 0.2rem;
-}
-
-.nav-link {
-  position: relative;
-  padding: 0.55rem 0.7rem;
-  color: rgba(239, 244, 242, 0.8);
-  font-size: 0.9rem;
-  font-weight: 700;
-  border-radius: var(--radius);
-  transition: color 180ms ease, background-color 180ms ease;
-}
-
-.nav-link:hover,
-.nav-link.is-active {
-  color: var(--paper-soft);
-  background: rgba(244, 237, 223, 0.14);
 }
 
 .hero-section {
@@ -308,63 +247,7 @@ a {
   background: rgba(251, 247, 238, 0.74);
 }
 
-.hero-archive {
-  position: relative;
-  min-height: 520px;
-}
-
-.paper-layer {
-  position: absolute;
-  inset: 8% 4%;
-  background: var(--paper-soft);
-  border: 1px solid var(--hairline);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-}
-
-.layer-one {
-  transform: rotate(-8deg) translate(-2%, 8%);
-}
-
-.layer-two {
-  background: #efe3cd;
-  transform: rotate(5deg) translate(7%, 1%);
-}
-
-.layer-three {
-  display: grid;
-  align-content: start;
-  gap: 1.2rem;
-  padding: 3rem;
-  transform: rotate(-1deg);
-}
-
-.layer-three::before {
-  width: 74px;
-  height: 12px;
-  content: "";
-  background: var(--accent);
-  border-radius: 999px;
-}
-
-.layer-three span {
-  display: block;
-  height: 10px;
-  background: rgba(38, 35, 31, 0.11);
-  border-radius: 999px;
-}
-
-.layer-three span:nth-child(2) {
-  width: 72%;
-}
-
-.layer-three span:nth-child(3) {
-  width: 88%;
-}
-
-.layer-three span:nth-child(4) {
-  width: 54%;
-}
+/* Ruled lines under each item, like notes on lined paper. */
 
 .about-scroll-section {
   padding: 0 0 3.5rem;
@@ -430,7 +313,7 @@ a {
   transform-origin: top center;
 }
 
-.about-scroll[data-reveal] .scroll-paper {
+.about-scroll.reveal-pending .scroll-paper {
   transform: scaleY(0.94);
   transition: transform 620ms ease;
 }
@@ -505,6 +388,13 @@ a {
 
 .page-header h1 {
   max-width: 12ch;
+}
+
+/* Keep long single-word titles ("Achievements") on one line on phones. */
+@media (max-width: 640px) {
+  .page-header h1 {
+    font-size: clamp(2.2rem, 10vw, 3rem);
+  }
 }
 
 .page-header p:last-child {
@@ -1036,6 +926,54 @@ a {
   font-size: 0.95rem;
 }
 
+.capability-proof-links {
+  display: grid;
+  gap: 0.1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.capability-proof-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--accent), transparent 45%);
+  text-underline-offset: 0.2em;
+}
+
+.capability-proof-links a:hover {
+  color: var(--accent);
+}
+
+/* Company logo as a small letterhead; multiply blends any white background into the paper. */
+.organization-logo {
+  display: block;
+  width: auto;
+  height: 26px;
+  margin-bottom: 0.75rem;
+  mix-blend-mode: multiply;
+}
+
+/* Linked entries land below the sticky navigation instead of under it. */
+.timeline-card[id],
+.project-card[id],
+.archive-row[id],
+.journey-card[id] {
+  scroll-margin-top: 7.5rem;
+}
+
+@media (max-width: 920px) {
+  .timeline-card[id],
+  .project-card[id],
+  .archive-row[id],
+  .journey-card[id] {
+    scroll-margin-top: 1rem;
+  }
+}
+
 .achievement-list {
   display: grid;
   gap: 1rem;
@@ -1170,10 +1108,15 @@ a {
 .journey-image-stack .image-visual,
 .journey-image-stack .archive-image {
   min-height: 230px;
+  transition: filter 420ms ease, opacity 420ms ease, transform 420ms ease;
+}
+
+/* Photos below the fold develop into focus as they scroll in; without JS they are always sharp. */
+.journey-card.reveal-pending .journey-image-stack .image-visual,
+.journey-card.reveal-pending .journey-image-stack .archive-image {
   filter: blur(4px);
   opacity: 0.72;
   transform: scale(0.985);
-  transition: filter 420ms ease, opacity 420ms ease, transform 420ms ease;
 }
 
 .journey-image-stack.has-multiple-images .image-visual,
@@ -1297,6 +1240,27 @@ a {
   color: var(--muted-ink);
 }
 
+.education-subpoint-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.5rem;
+  margin: 0.45rem 0 0.2rem;
+  padding: 0;
+  list-style: none;
+}
+
+.education-point-list .education-subpoint-list li {
+  padding: 0.1rem 0.6rem;
+  font-size: 0.92em;
+  color: var(--ink);
+  background: var(--accent-soft);
+  border-radius: 999px;
+}
+
+.education-point-list .education-subpoint-list li::before {
+  content: none;
+}
+
 .education-point-list li::before {
   position: absolute;
   top: 0.68em;
@@ -1409,6 +1373,12 @@ a {
   transition: opacity 560ms ease, transform 560ms ease, border-color 560ms ease;
 }
 
+/* Only content that starts below the fold is hidden, and only once the script has run. */
+[data-reveal].reveal-pending {
+  opacity: 0;
+  transform: translateY(18px);
+}
+
 [data-reveal].is-visible {
   opacity: 1;
   transform: translateY(0);
@@ -1430,14 +1400,6 @@ a {
 }
 
 @media (max-width: 920px) {
-  .navigation {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-
-  .navigation-links {
-    justify-content: flex-start;
-  }
 
   .hero-section,
   .role-card-header,
@@ -1450,10 +1412,6 @@ a {
 
   .hero-section {
     min-height: auto;
-  }
-
-  .hero-archive {
-    min-height: 360px;
   }
 
   .impact-grid,
@@ -1480,14 +1438,6 @@ a {
 
   .brand-mark {
     min-width: 0;
-  }
-
-  .brand-text small {
-    white-space: normal;
-  }
-
-  .nav-link {
-    padding: 0.48rem 0.55rem;
   }
 
   .hero-section {
@@ -1605,9 +1555,9 @@ a {
   border: 0;
 }
 main { scroll-margin-top: 8rem; }
-.navigation :focus-visible { outline-color: #fbf7ee; }
-.nav-link, .skill-dialog-close { min-width: 44px; min-height: 44px; }
-.nav-link { display: inline-flex; align-items: center; }
+
+.skill-dialog-close { min-width: 44px; min-height: 44px; }
+
 summary { min-height: 44px; cursor: pointer; }
 .text-link-row a, .footer-links a {
   display: inline-flex;
@@ -1620,11 +1570,95 @@ summary { min-height: 44px; cursor: pointer; }
 }
 .skill-dialog { overflow-y: auto; overscroll-behavior: contain; }
 @media (max-width: 920px), (max-height: 500px) {
-  .navigation-frame { position: relative; }
+
   main { scroll-margin-top: 1rem; }
 }
 @media (forced-colors: active) {
   :focus-visible { outline: 3px solid Highlight; }
-  .nav-link[aria-current="page"] { border: 2px solid currentColor; }
+
   .button, .skill-dialog, .skill-dialog-close { border: 1px solid ButtonText; }
+}
+
+/* ---------- 404: encyclopedia index ---------- */
+.index-header h1 {
+  max-width: none;
+}
+
+.encyclopedia-index {
+  margin-bottom: 4rem;
+  padding: clamp(1.3rem, 4vw, 2.6rem);
+}
+
+.index-key {
+  margin: 0 0 1.4rem;
+  padding-bottom: 1rem;
+  color: var(--muted-ink);
+  font-size: 0.95rem;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.index-columns {
+  column-width: 17rem;
+  column-gap: 2.6rem;
+  column-rule: 1px solid var(--hairline);
+}
+
+.index-letter {
+  break-inside: avoid;
+  margin-bottom: 1.3rem;
+}
+
+.index-letter h2 {
+  margin-bottom: 0.3rem;
+  color: var(--accent);
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.index-letter ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.index-entry a {
+  display: flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  min-height: 32px;
+  padding: 0.15rem 0;
+  color: var(--ink);
+  font-size: 0.98rem;
+  text-decoration: none;
+}
+
+.index-entry.is-page a {
+  font-weight: 700;
+}
+
+.index-term {
+  flex: 0 1 auto;
+}
+
+/* Dotted leader between the term and its page, as in a printed index. */
+.index-leader {
+  flex: 1 1 1.5rem;
+  min-width: 1.5rem;
+  border-bottom: 2px dotted rgba(38, 35, 31, 0.28);
+  transform: translateY(-0.3em);
+}
+
+.index-ref {
+  flex: 0 0 auto;
+  color: var(--muted-ink);
+  font-size: 0.9rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.index-entry a:hover .index-term,
+.index-entry a:focus-visible .index-term {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
 }

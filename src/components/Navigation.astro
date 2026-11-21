@@ -1,7 +1,8 @@
 ---
 import SiteImage from "./SiteImage.astro";
 import type { NavigationLink, SiteContent } from "../types/content";
-import { withoutBase } from "@lib/paths";
+import { withBase } from "@lib/paths";
+import { fileNumber, folderPosition } from "@lib/folder";
 
 interface Props {
   links: NavigationLink[];
@@ -10,34 +11,53 @@ interface Props {
 }
 
 const { links, profile, currentPath } = Astro.props;
-
-const normalizedCurrentPath = withoutBase(currentPath);
-
-const isActiveLink = (href: string) => {
-  const path = withoutBase(href);
-  if (path === "/") return normalizedCurrentPath === "/";
-  return normalizedCurrentPath === path || normalizedCurrentPath.startsWith(`${path.replace(/\/$/, "")}/`);
-};
+const position = folderPosition(links, currentPath);
+const where = position.current ? `File ${fileNumber(position.index)} · ${position.current.label}` : "Index · Page not found";
+const tabStyle = (link: NavigationLink) => `--c: var(--${link.accent ?? "sapphire"})`;
 ---
 
-<header class="navigation-frame">
-  <nav class="navigation" aria-label="Primary navigation">
-    <a class="brand-mark" href="/avaneesh2001/" aria-label={`${profile.name} home`}>
-      <span class="brand-logo-frame">
-        <SiteImage class="brand-logo" src="/avaneesh2001/logo.png" alt="" loading="eager" data-logo-image />
-        <span class="brand-monogram">{profile.name.slice(0, 1)}</span>
-      </span>
-      <span class="brand-text">
-        <strong>{profile.name}</strong>
-        <small>{profile.professional_identity}</small>
-      </span>
+<!-- Desktop: the folder's label, then its index tabs (one per page, in that page's colour). -->
+<div class="folder-name">
+  <a class="brand-mark" href={withBase("/")} aria-label={`${profile.name} home`}>
+    <span class="brand-logo-frame">
+      <SiteImage class="brand-logo" src="logo.png" alt="" displayWidth={42} sizes="42px" loading="eager" data-logo-image />
+      <span class="brand-monogram">{profile.name.slice(0, 1)}</span>
+    </span>
+    <strong>{profile.name}</strong>
+  </a>
+  <span class="folder-name-tagline">{profile.professional_identity}</span>
+</div>
+
+<nav class="file-tabs" aria-label="Primary navigation">
+  {links.map((link, index) => (
+    <a
+      href={withBase(link.href)}
+      class="file-tab"
+      style={tabStyle(link)}
+      aria-current={index === position.index ? "page" : undefined}
+    >
+      <span class="file-tab-number" aria-hidden="true">{fileNumber(index)}</span>
+      {link.label}
     </a>
-    <div class="navigation-links">
-      {links.map((link) => (
-        <a href={link.href} class:list={["nav-link", { "is-active": isActiveLink(link.href) }]} aria-current={isActiveLink(link.href) ? "page" : undefined}>
-          {link.label}
-        </a>
-      ))}
-    </div>
+  ))}
+</nav>
+
+<!-- Phone: a slim bar with the current file, the résumé, and a contents card instead of tabs. -->
+<header class="phone-bar">
+  <a class="phone-bar-who" href={withBase("/")}>
+    <strong>{profile.name}</strong>
+    <span class="phone-bar-where">{where}</span>
+  </a>
+  <a class="phone-bar-button" href={withBase(profile.resume_url)}>Résumé<span class="visually-hidden"> (PDF)</span></a>
+  <button class="phone-bar-button" type="button" aria-expanded="false" aria-controls="contents-card" data-contents-toggle>Contents</button>
+  <nav class="contents-card" id="contents-card" aria-label="Contents" hidden data-contents-card>
+    <p class="contents-card-title">Contents</p>
+    {links.map((link, index) => (
+      <a href={withBase(link.href)} style={tabStyle(link)} aria-current={index === position.index ? "page" : undefined}>
+        <span class="contents-card-dot" aria-hidden="true"></span>
+        <span class="contents-card-number" aria-hidden="true">{fileNumber(index)}</span>
+        {link.label}
+      </a>
+    ))}
   </nav>
 </header>

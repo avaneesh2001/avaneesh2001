@@ -6,7 +6,8 @@ project_title = "Dreamscape Symphony"
 short_description = "AI system that transforms dreams into lyrics, audio, and visual outputs"
 impact_statement = "Explores multi-stage generative pipelines combining LLMs, TTS, and media models"
 technology_tags = ["Python", "LLMs", "NLP", "TTS", "Streamlit"]
-optional_image = "/avaneesh2001/projects/image.png"
+optional_image = "projects/image.png"
+optional_image_alt = "Dreamscape Symphony app screen with fields to enter a dream and upload an image"
 
 [[featured_projects.project_links]]
 label = "GitHub"
@@ -21,7 +22,20 @@ project_title = "AI Speech Video Generation"
 short_description = "Multi-stage system for generating videos from speech and visual inputs"
 impact_statement = "Focuses on model integration, media pipelines, and output consistency"
 technology_tags = ["Python", "GANs", "Computer Vision", "Pipelines"]
-optional_image = "/avaneesh2001/projects/talking_face.png"
+optional_image = "projects/talking_face.png"
+optional_image_alt = "Model architecture: speech, image and emotion encoders feeding a GAN generator with frame and emotion discriminators"
+
+
+[[featured_projects]]
+project_title = "Multilingual RAG QA System"
+short_description = "Question answering that combines web search and knowledge sources to generate grounded answers"
+impact_statement = "Modular backend pipeline with parallel retrieval, vector search, and reranking for more relevant responses"
+technology_tags = ["Python", "RAG", "LLMs", "Vector search", "Reranking"]
+optional_image = ""
+
+[[featured_projects.project_links]]
+label = "Demo"
+href = "https://multilingual-ai-answer-bot.streamlit.app/"
 
 
 [[project_archive]]
@@ -31,7 +45,7 @@ github_link = "https://github.com/avaneesh2001/Madhura-Sruthi-Bird-Prediction-us
 
 [[project_archive]]
 title = "Visual Cryptography for Biometric Privacy"
-brief_description = "A Access control ID System using Visual Cryptography and LSB Watermarking"
+brief_description = "An access control ID system using visual cryptography and LSB watermarking"
 github_link = "https://github.com/avaneesh2001/Novel-Access-control-ID-System-using-Visual-Cryptography-and-LSB-Watermarking"
 
 [[project_archive]]
@@ -41,7 +55,7 @@ github_link = "https://github.com/avaneesh2001/SUN-TRACKING-SOLAR-PANEL"
 
 [[project_archive]]
 title = "Adaptive Median and Median Filtering"
-brief_description = "Removine salt and pepper noise using median and adaptive median filter in MATLAB"
+brief_description = "Removes salt-and-pepper noise using median and adaptive median filters in MATLAB"
 github_link = "https://github.com/avaneesh2001/Adaptive-median-and-median-filtering"
 
 [[project_archive]]
@@ -52,5 +66,5 @@ github_link = "https://terrasen001.itch.io/shadows-defy-the-night"
 
 [[project_archive]]
 title = "Facial Expression Recognition with CNNs"
-brief_description = "Effective face recognition using Convolutional Neural Networks"
+brief_description = "Facial expression recognition using convolutional neural networks"
 github_link = "https://github.com/avaneesh2001/Facial-Expression-Recognition-with-CNNs"

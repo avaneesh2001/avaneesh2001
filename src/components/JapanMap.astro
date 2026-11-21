@@ -1,0 +1,206 @@
+---
+import type { JapanContent } from "../types/content";
+import geo from "./japan-map-geo.json";
+
+interface Props {
+  stops: JapanContent["stops"];
+}
+
+const { stops } = Astro.props;
+
+/*
+ * Map of the trip, drawn from real OpenStreetMap geography (built by scripts/japan-map.mjs),
+ * styled to sit on the paper. Pins come from each stop's longitude / latitude, and the dashed
+ * route joins them in the order of the trip.
+ */
+type Point = [number, number]; // [lon, lat]
+
+const { box } = geo;
+const W = 600;
+const COS = Math.cos((35.78 * Math.PI) / 180);
+const kx = W / (box.lonMax - box.lonMin);
+const ky = kx / COS; // keeps distances true at this latitude
+const H = Math.round((box.latMax - box.latMin) * ky);
+const project = ([lon, lat]: Point): Point => [(lon - box.lonMin) * kx, (box.latMax - lat) * ky];
+const fmt = (n: number) => n.toFixed(1);
+const line = (points: Point[], close = false) =>
+  points.map((p, i) => `${i ? "L" : "M"}${project(p).map(fmt).join(" ")}`).join(" ") + (close ? " Z" : "");
+
+// Real features.
+const land = geo.land.map((ring) => line(ring as Point[], true)).join(" ");
+const lakes = geo.lakes.map((ring) => line(ring as Point[], true)).join(" ");
+const riverWidth: Record<string, number> = { Tone: 2.6, Arakawa: 2.1, Edogawa: 1.8, Tama: 1.8, Kinu: 1.6, Sumida: 1.4, Kokai: 1.3, Obitsu: 1.3 };
+const rivers = Object.entries(geo.rivers).map(([name, lines]) => ({ name, width: riverWidth[name] ?? 1.3, d: (lines as Point[][]).map((l) => line(l)).join(" ") }));
+
+// The Tokyo Bay Aqua-Line: a tunnel from Kawasaki to Umi-hotaru, then a bridge to Kisarazu.
+const umiHotaru: Point = [139.8747, 35.4638];
+const kisarazuLanding = 139.917;
+const aqua = ([...geo.aquaLine].sort((a, b) => b.length - a.length)[0] as Point[]).slice().sort((a, b) => a[0] - b[0]);
+// The line is nearly straight, so its simplified points may skip Umi-hotaru: split there explicitly.
+const pointAtLon = (lon: number): Point => {
+  const i = Math.max(1, aqua.findIndex(([x]) => x >= lon));
+  const [a, b] = [aqua[i - 1], aqua[i]];
+  const t = (lon - a[0]) / (b[0] - a[0] || 1);
+  return [lon, a[1] + (b[1] - a[1]) * t];
+};
+const tunnel: Point[] = [...aqua.filter(([lon]) => lon < umiHotaru[0]), umiHotaru];
+const bridge: Point[] = [umiHotaru, ...aqua.filter(([lon]) => lon > umiHotaru[0] && lon < kisarazuLanding), pointAtLon(kisarazuLanding)];
+
+// Pins, numbered in the order of the trip.
+const pins = stops.map((stop, index) => {
+  const [x, y] = project([stop.lon, stop.lat]);
+  return { ...stop, number: index + 1, x, y };
+});
+const onRoute = pins.filter((pin) => !pin.off_route);
+
+// The route: each leg is a gentle curve. It only shows the order of the trip, not the roads, so
+// each leg bows to whichever side keeps it over land and clear of other pins.
+// A leg marked "via the Aqua-Line" follows the tunnel and bridge across the bay.
+const landRings = geo.land.map((ring) => (ring as Point[]).map(project));
+const onLand = ([x, y]: Point) => {
+  let inside = false;
+  for (const ring of landRings) {
+    for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+      const [xi, yi] = ring[i], [xj, yj] = ring[j];
+      if (yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi) inside = !inside;
+    }
+  }
+  return inside;
+};
+type Leg = { d: string; arrow: { x: number; y: number; angle: number } };
+const curve = (a: Point, b: Point): Leg => {
+  const [dx, dy] = [b[0] - a[0], b[1] - a[1]];
+  const length = Math.hypot(dx, dy) || 1;
+  const others = pins.filter((p) => Math.hypot(p.x - a[0], p.y - a[1]) > 1 && Math.hypot(p.x - b[0], p.y - b[1]) > 1);
+  const ux = dx / length, uy = dy / length;
+  // Short hops stay nearly straight; longer legs may sweep wide to stay over land.
+  const shares = length < 90 ? [0.04] : [0.08, 0.16, 0.26, 0.4];
+  const options = shares.flatMap((share) => [1, -1].map((side) => {
+    // A cubic curve: both handles pushed sideways by the same amount, so the leg sweeps evenly.
+    const bow = length * share * side;
+    const c1: Point = [a[0] + dx / 3 - uy * bow, a[1] + dy / 3 + ux * bow];
+    const c2: Point = [b[0] - dx / 3 - uy * bow, b[1] - dy / 3 + ux * bow];
+    const at = (t: number): Point => {
+      const m = 1 - t;
+      return [m ** 3 * a[0] + 3 * m * m * t * c1[0] + 3 * m * t * t * c2[0] + t ** 3 * b[0], m ** 3 * a[1] + 3 * m * m * t * c1[1] + 3 * m * t * t * c2[1] + t ** 3 * b[1]];
+    };
+    const samples = Array.from({ length: 21 }, (_, i) => at(0.08 + (i / 20) * 0.84));
+    const wet = samples.filter((p) => !onLand(p)).length;
+    const clearance = Math.min(40, ...others.flatMap((p) => samples.map((q) => Math.hypot(p.x - q[0], p.y - q[1]))));
+    // Prefer dry legs, then legs that clear other pins, then the gentler sweep.
+    const mid = at(0.5), ahead = at(0.52);
+    return { d: `M${fmt(a[0])} ${fmt(a[1])} C${c1.map(fmt).join(" ")} ${c2.map(fmt).join(" ")} ${fmt(b[0])} ${fmt(b[1])}`, mid, ahead, score: wet * 100 - clearance + share * 40 };
+  }));
+  const { d, mid, ahead } = options.sort((x, y) => x.score - y.score)[0];
+  const angle = (Math.atan2(ahead[1] - mid[1], ahead[0] - mid[0]) * 180) / Math.PI;
+  return { d, arrow: { x: mid[0], y: mid[1], angle } };
+};
+// The Aqua-Line as one projected line, and where a point meets it (segment index + fraction).
+const crossing = [...tunnel, ...bridge.slice(1)].map((p) => project(p));
+const nearestOnCrossing = ([px, py]: Point) => {
+  let best = { pos: 0, point: crossing[0], distance: Infinity };
+  for (let i = 0; i < crossing.length - 1; i++) {
+    const [a, b] = [crossing[i], crossing[i + 1]];
+    const [dx, dy] = [b[0] - a[0], b[1] - a[1]];
+    const t = Math.max(0, Math.min(1, ((px - a[0]) * dx + (py - a[1]) * dy) / (dx * dx + dy * dy || 1)));
+    const point: Point = [a[0] + dx * t, a[1] + dy * t];
+    const distance = Math.hypot(px - point[0], py - point[1]);
+    if (distance < best.distance) best = { pos: i + t, point, distance };
+  }
+  return best;
+};
+
+const legs: Leg[] = [];
+const aquaPath: string[] = [];
+onRoute.slice(1).forEach((to, i) => {
+  const from = onRoute[i];
+  if (to.via_aqua_line) {
+    // Join the Aqua-Line where it is nearest each end, and follow it between them.
+    const [enter, leave] = [nearestOnCrossing([from.x, from.y]), nearestOnCrossing([to.x, to.y])];
+    const step = enter.pos <= leave.pos ? 1 : -1;
+    const inner = crossing.filter((_, k) => (step > 0 ? k > enter.pos && k < leave.pos : k < enter.pos && k > leave.pos));
+    const path = [enter.point, ...(step > 0 ? inner : inner.reverse()), leave.point];
+    if (enter.distance > 2) legs.push(curve([from.x, from.y], enter.point));
+    aquaPath.push(path.map((p, k) => `${k ? "L" : "M"}${p.map(fmt).join(" ")}`).join(" "));
+    if (leave.distance > 2) legs.push(curve(leave.point, [to.x, to.y]));
+  } else {
+    legs.push(curve([from.x, from.y], [to.x, to.y]));
+  }
+});
+
+// Place names, a scale bar and a light graticule make it read as a real map.
+const labels: Array<{ text: string; at: Point; anchor?: "start" | "middle" | "end"; kind?: "city" | "water" | "town" }> = [
+  { text: "TOKYO", at: [139.6, 35.69], anchor: "start", kind: "city" },
+  { text: "Yokohama", at: [139.6, 35.44], anchor: "start", kind: "town" },
+  { text: "Chiba", at: [140.19, 35.64], anchor: "start", kind: "town" },
+  { text: "Kimitsu", at: [139.925, 35.335], anchor: "start", kind: "town" },
+  { text: "Tsukuba", at: [140.165, 36.075], anchor: "start", kind: "town" },
+  { text: "Tokyo Bay", at: [139.905, 35.555], anchor: "middle", kind: "water" },
+];
+const mtTsukuba = project([140.1067, 36.2254]);
+const [umiX, umiY] = project(umiHotaru);
+const scaleKm = 10;
+const scaleWidth = (scaleKm / (111.32 * COS)) * kx;
+const ticksLon = [139.8, 140.0, 140.2]; // 139.6 sits under the compass
+const ticksLat = [35.4, 35.6, 35.8, 36.0, 36.2];
+---
+
+<figure class="japan-map" style={`--map-ratio: ${(W / H).toFixed(4)}`}>
+  <svg viewBox={`0 0 ${W} ${H}`} role="group" aria-labelledby="japan-map-title" class="japan-map-svg">
+    <title id="japan-map-title">Map of the trip: Tokyo, under Tokyo Bay via Umi-hotaru to Kimitsu, up to Tsukuba, and back to Tokyo</title>
+
+    <!-- Water, then land from the real coastline -->
+    <rect class="map-sea" x="0" y="0" width={W} height={H} />
+    <path class="map-land" d={land} fill-rule="evenodd" />
+    <path class="map-lake" d={lakes} />
+    {rivers.map((river) => <path class="map-river" d={river.d} style={`stroke-width: ${river.width}`} />)}
+
+    <!-- Graticule -->
+    <g class="map-graticule" aria-hidden="true">
+      {ticksLon.map((lon) => { const [x] = project([lon, box.latMin]); return <><line x1={x} y1="0" x2={x} y2={H} /><text x={x + 3} y="12">{lon.toFixed(1)}°E</text></>; })}
+      {ticksLat.map((lat) => { const [, y] = project([box.lonMin, lat]); return <><line x1="0" y1={y} x2={W} y2={y} /><text x={W - 4} y={y - 4} text-anchor="end">{lat.toFixed(1)}°N</text></>; })}
+    </g>
+
+    <!-- The Aqua-Line: tunnel (dashed) and bridge (solid) -->
+    <path class="map-road map-road-tunnel" d={line(tunnel)} />
+    <path class="map-road" d={line(bridge)} />
+    <text class="map-note-label map-note-sub map-on-water" x={umiX - 26} y={umiY + 6} text-anchor="end" aria-hidden="true">Aqua-Line</text>
+    <g class="map-landmark" aria-hidden="true">
+      <path d={`M${fmt(mtTsukuba[0] - 7)} ${fmt(mtTsukuba[1] + 5)} L${fmt(mtTsukuba[0])} ${fmt(mtTsukuba[1] - 7)} L${fmt(mtTsukuba[0] + 7)} ${fmt(mtTsukuba[1] + 5)} Z`} />
+      <text class="map-note-label" x={mtTsukuba[0] + 11} y={mtTsukuba[1] + 4}>Mt Tsukuba</text>
+    </g>
+
+    {labels.map((label) => {
+      const [x, y] = project(label.at);
+      return <text class:list={["map-label", label.kind && `map-label-${label.kind}`]} x={x} y={y} text-anchor={label.anchor ?? "start"}>{label.text}</text>;
+    })}
+
+    <!-- Route, in the order of the trip -->
+    <g class="map-route" aria-hidden="true">
+      {legs.map((leg) => <path d={leg.d} />)}
+      {aquaPath.map((d) => <path d={d} />)}
+      {legs.map((leg) => <path class="map-route-arrow" d="M-6 -5 L5 0 L-6 5" transform={`translate(${fmt(leg.arrow.x)} ${fmt(leg.arrow.y)}) rotate(${leg.arrow.angle.toFixed(0)})`} />)}
+    </g>
+
+    <!-- Compass, scale and credit -->
+    <g class="map-compass" transform="translate(40 40)" aria-hidden="true">
+      <circle r="20" />
+      <path d="M0 -15 L5 0 L0 15 L-5 0 Z" />
+      <text y="-25" text-anchor="middle">N</text>
+    </g>
+    <g class="map-scale" transform={`translate(${fmt(W - scaleWidth - 22)} ${H - 34})`} aria-hidden="true">
+      <path d={`M0 0 V6 H${fmt(scaleWidth)} V0`} />
+      <text x={scaleWidth / 2} y="-5" text-anchor="middle">{scaleKm} km</text>
+    </g>
+    <text class="map-credit" x="8" y={H - 8}>Map data © OpenStreetMap contributors</text>
+
+    <!-- Pins: each links to its story -->
+    {pins.map((pin) => (
+      <a href={`#stop-${pin.number}`} class:list={["map-pin", { "is-off-route": pin.off_route }]} data-pin={pin.number} aria-label={`Stop ${pin.number}: ${pin.name}`}>
+        <circle class="map-pin-hit" cx={pin.x} cy={pin.y} r="22" />
+        <circle class="map-pin-dot" cx={pin.x} cy={pin.y} r="12" />
+        <text class="map-pin-number" x={pin.x} y={pin.y + 4.5} text-anchor="middle">{pin.number}</text>
+      </a>
+    ))}
+  </svg>
+</figure>

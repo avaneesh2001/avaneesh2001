@@ -1,36 +1,43 @@
 [profile]
 name = "R Avaneesh"
-professional_identity = "AI • Telecom • Automation"
+professional_identity = "Applied AI • Automation • Telecom"
 email = "ravaneesh1@gmail.com"
-resume_url = "/avaneesh2001/resume.pdf"
+resume_url = "/resume.pdf"
 
 [[navigation_links]]
 label = "Home"
-href = "/avaneesh2001/"
+href = "/"
+accent = "sapphire"
 
 [[navigation_links]]
 label = "Experience"
-href = "/avaneesh2001/experience/"
+href = "/experience/"
+accent = "sapphire"
 
 [[navigation_links]]
 label = "Skills"
-href = "/avaneesh2001/skills/"
+href = "/skills/"
+accent = "amethyst"
 
 [[navigation_links]]
 label = "Projects"
-href = "/avaneesh2001/projects/"
+href = "/projects/"
+accent = "jade"
 
 [[navigation_links]]
 label = "Education"
-href = "/avaneesh2001/education/"
+href = "/education/"
+accent = "teal"
 
 [[navigation_links]]
 label = "Achievements"
-href = "/avaneesh2001/achievements/"
+href = "/achievements/"
+accent = "gold"
 
 [[navigation_links]]
 label = "Activities"
-href = "/avaneesh2001/activities/"
+href = "/activities/"
+accent = "garnet"
 
 [[footer_links]]
 label = "Email"
@@ -42,8 +49,21 @@ href = "https://github.com/avaneesh2001"
 
 [[footer_links]]
 label = "LinkedIn"
-href = "https://linkedin.com/in/avaneesh-rs"
+href = "https://linkedin.com/in/avaneesh-r"
 
 [[footer_links]]
-label = "Resume"
-href = "/avaneesh2001/resume.pdf"
+label = "Résumé"
+href = "/resume.pdf"
+
+# Used for search results, link previews and structured data (schema.org Person).
+[seo]
+home_title = "R Avaneesh — Senior Engineer, Code Intelligence & Applied AI"
+job_title = "Senior Engineer"
+employer = "Qualcomm"
+location = "Chennai, India"
+alumni_of = "National Institute of Technology Calicut"
+og_image = "/og-image.png"
+og_image_alt = "R Avaneesh — Senior Engineer at Qualcomm, code intelligence and applied AI"
+same_as = ["https://linkedin.com/in/avaneesh-r/", "https://github.com/avaneesh2001"]
+knows_about = ["Code intelligence", "Backend systems", "Large language models", "Developer tools", "Test automation", "O-RAN", "Machine learning"]
+awards = ["Gold Medal, NIT Calicut (CGPA 9.69)", "CBSE Merit Certificate (top 0.1%)", "National Children's Science Congress national finalist", "1st place, Strategize (IIT Madras), transportation category"]

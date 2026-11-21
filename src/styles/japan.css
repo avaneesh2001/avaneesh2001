@@ -1,0 +1,240 @@
+/* Japan field notes: a notebook map with numbered pins, and the stops beside it. */
+
+.page-foot-prev.is-back {
+  visibility: visible;
+}
+
+.japan-intro-more {
+  max-width: 62ch;
+  margin: -0.6rem 0 2rem;
+  font-size: 1.05rem;
+}
+
+.japan-story {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  align-items: start;
+  gap: clamp(1.5rem, 4vw, 3rem);
+}
+
+/* The map stays in view while the stories scroll past on wider screens. */
+.japan-map-column {
+  position: sticky;
+  top: 5.5rem;
+}
+
+.japan-map {
+  margin: 0;
+  padding: 10px;
+  background: #fffdf6;
+  border: 1px solid var(--hairline);
+  box-shadow: 0 1px 2px rgba(68, 52, 28, 0.08);
+  transform: rotate(-0.6deg);
+}
+
+/* The map is portrait; on wide screens keep all of it in view beside the stories. */
+@media (min-width: 901px) {
+  .japan-map {
+    max-width: calc((100vh - 10rem) * var(--map-ratio) + 20px);
+    margin-inline: auto;
+  }
+}
+
+.japan-map-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.japan-map-note {
+  margin-top: 0.7rem;
+  color: var(--muted-ink);
+  font: 0.78rem/1.4 var(--mono-font);
+}
+
+/* Map ink: real geography, drawn in the paper's palette */
+.map-sea { fill: #dbe5e1; }
+.map-land { fill: #f6efdc; stroke: #8fa7a2; stroke-width: 0.9; stroke-linejoin: round; }
+.map-lake { fill: #dbe5e1; stroke: #8fa7a2; stroke-width: 0.8; }
+.map-river { fill: none; stroke: #a9bfba; stroke-linecap: round; stroke-linejoin: round; }
+.map-graticule line { stroke: #b7aa95; stroke-width: 0.5; stroke-dasharray: 2 4; opacity: 0.6; }
+.map-graticule text { fill: #8a7f70; font: 9px var(--mono-font); }
+.map-road { fill: none; stroke: #5b5246; stroke-width: 2.2; stroke-linecap: round; }
+.map-road-tunnel { stroke-dasharray: 3 3; stroke-width: 1.6; }
+.map-landmark path { fill: #5b5246; stroke: #fffdf6; stroke-width: 1.2; }
+.map-label,
+.map-note-label,
+.map-credit,
+.map-scale text { font-family: var(--mono-font); paint-order: stroke; stroke: #f6efdc; stroke-width: 3px; stroke-linejoin: round; }
+.map-label { fill: #5b5246; font-size: 12px; letter-spacing: 0.03em; }
+.map-label-city { font-size: 14px; font-weight: 500; letter-spacing: 0.22em; }
+.map-label-water { fill: #6f8d88; font-style: italic; stroke: #dbe5e1; }
+.map-note-label { fill: #5b5246; font-size: 10.5px; }
+.map-note-sub { fill: #8a7f70; font-style: italic; }
+.map-on-water { stroke: #dbe5e1; }
+.map-credit { fill: #8a7f70; font-size: 9px; }
+.map-scale path { fill: none; stroke: #5b5246; stroke-width: 1.4; }
+.map-scale text { fill: #5b5246; font-size: 10px; }
+.map-compass circle { fill: #fffdf6; stroke: #b7aa95; }
+.map-compass path { fill: #5b5246; }
+.map-compass text { fill: #5b5246; font: 700 11px var(--mono-font); }
+.map-route path { fill: none; stroke: var(--accent); stroke-width: 2.4; stroke-dasharray: 7 5; stroke-linecap: round; opacity: 0.8; }
+.map-route .map-route-arrow { stroke-dasharray: none; stroke-width: 2.4; stroke-linejoin: round; opacity: 1; }
+
+/* Pins */
+.map-pin { cursor: pointer; }
+.map-pin-hit { fill: transparent; }
+.map-pin-dot {
+  fill: var(--accent);
+  stroke: #fffdf6;
+  stroke-width: 3;
+  transition: r 160ms ease;
+}
+.map-pin-number { fill: #fffdf6; font: 700 12px var(--mono-font); pointer-events: none; }
+.map-pin.is-off-route .map-pin-dot { fill: #fffdf6; stroke: var(--accent); stroke-width: 2.5; stroke-dasharray: 4 3; }
+.map-pin.is-off-route .map-pin-number { fill: var(--accent); }
+.map-pin:hover .map-pin-dot,
+.map-pin:focus-visible .map-pin-dot,
+.map-pin.is-active .map-pin-dot { r: 16px; }
+.map-pin:focus-visible { outline: none; }
+.map-pin:focus-visible .map-pin-dot { stroke: var(--ink); }
+
+/* Stops */
+.japan-stops {
+  display: grid;
+  gap: 1.2rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: none;
+}
+
+.japan-stop {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.9rem;
+  padding: 1.1rem 1.1rem 1.2rem;
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius);
+  scroll-margin-top: 5.5rem;
+}
+
+.japan-stop:target {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent), transparent 80%);
+}
+
+.japan-stop-number {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  color: #fffdf6;
+  font: 700 0.85rem var(--mono-font);
+  background: var(--accent);
+  border-radius: 50%;
+}
+
+.japan-stop.is-off-route .japan-stop-number {
+  color: var(--accent);
+  background: #fffdf6;
+  border: 2px dashed var(--accent);
+}
+
+.japan-stop-body {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.japan-stop-body h2 {
+  font-size: 1.35rem;
+  line-height: 1.2;
+}
+
+.japan-stop-place {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.japan-stop-body .image-frame {
+  margin-top: 0.5rem;
+}
+
+.japan-stop-link {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  min-height: 44px;
+  color: var(--accent);
+  font-weight: 800;
+}
+
+.japan-afterword {
+  max-width: 62ch;
+  margin: 2.5rem 0 0;
+  padding: 1.2rem 0 0 1.2rem;
+  border-top: 1px solid var(--hairline);
+  border-left: 3px solid var(--accent);
+}
+
+.japan-afterword p:not(.eyebrow) {
+  margin-top: 0.4rem;
+  color: var(--ink);
+  font-size: 1.08rem;
+}
+
+/* Activities card link to the story */
+.journey-story-link {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  min-height: 44px;
+  margin-top: 0.3rem;
+  color: var(--accent);
+  font-weight: 800;
+}
+
+@media (max-width: 900px) {
+  .japan-story {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .japan-map-column {
+    position: static;
+  }
+
+  .japan-map {
+    transform: none;
+  }
+}
+
+@media (max-width: 720px) {
+  /* The map scales to about 55% on phones, so draw the pins and labels bigger. */
+  .map-pin-hit { r: 46px; }
+  .map-pin-dot { r: 18px; stroke-width: 3.5; }
+  .map-pin-number { font-size: 17px; transform: translateY(2px); transform-box: fill-box; }
+  .map-pin:hover .map-pin-dot,
+  .map-pin:focus-visible .map-pin-dot,
+  .map-pin.is-active .map-pin-dot { r: 21px; }
+  .map-label { font-size: 17px; }
+  .map-label-city { font-size: 19px; }
+  .map-note-label { font-size: 15px; }
+  .map-graticule text, .map-credit { font-size: 12px; }
+  .map-scale text { font-size: 14px; }
+
+  .japan-stop {
+    padding: 0.9rem 0.9rem 1rem;
+    scroll-margin-top: 4.5rem;
+  }
+}
+
+@media print {
+  .japan-map-column { position: static; }
+  .japan-map { transform: none; box-shadow: none; }
+  .japan-stop { break-inside: avoid; background: none; }
+  .japan-map-note { display: none; }
+}

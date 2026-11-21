@@ -1,0 +1,97 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { getContentFile } from "@lib/content";
+import { experienceLabel, toAnchor } from "@lib/anchors";
+import { withBase } from "@lib/paths";
+import type {
+  AchievementsContent,
+  ActivitiesContent,
+  EducationContent,
+  ExperienceContent,
+  ProjectsContent,
+  SiteContent,
+  SkillsContent,
+} from "../types/content";
+
+// A back-of-the-book index built from the content files, so a lost visitor can jump straight
+// to whatever they were looking for. Page numbers follow the navigation order.
+const site = getContentFile<SiteContent>("site");
+const experience = getContentFile<ExperienceContent>("experience");
+const projects = getContentFile<ProjectsContent>("projects");
+const achievements = getContentFile<AchievementsContent>("achievements");
+const activities = getContentFile<ActivitiesContent>("activities");
+const education = getContentFile<EducationContent>("education");
+const skills = getContentFile<SkillsContent>("skills");
+
+const pageNumber = new Map(site.navigation_links.map((link, index) => [link.href, index + 1]));
+const pageLabel = new Map(site.navigation_links.map((link) => [link.href, link.label]));
+
+type IndexEntry = { term: string; href: string; page: string; pageNo?: number; isPage?: boolean };
+const entry = (term: string, page: string, anchor?: string, isPage = false): IndexEntry => ({
+  term,
+  href: withBase(anchor ? `${page}#${anchor}` : page),
+  page: pageLabel.get(page) ?? page,
+  pageNo: pageNumber.get(page),
+  isPage,
+});
+
+const entries: IndexEntry[] = [
+  ...site.navigation_links.map((link) => entry(link.label, link.href, undefined, true)),
+  { term: "Résumé (PDF)", href: withBase(site.profile.resume_url), page: "PDF", isPage: true },
+  ...experience.experience_entries.map((item) => entry(item.organization_name, "/experience/", toAnchor(experienceLabel(item)))),
+  ...projects.featured_projects.map((item) => entry(item.project_title, "/projects/", toAnchor(item.project_title))),
+  ...projects.project_archive.map((item) => entry(item.title, "/projects/", toAnchor(item.title))),
+  ...achievements.achievement_entries.map((item) => entry(item.title, "/achievements/", toAnchor(item.title))),
+  ...activities.activities.map((item) => entry(item.title, "/activities/", toAnchor(item.title))),
+  entry(education.education_details.institution_name, "/education/", toAnchor(education.education_details.institution_name)),
+  ...skills.skill_groups.map((group) => entry(group.group_name, "/skills/")),
+  { ...entry("Japan field notes (May 2018)", "/activities/"), href: withBase("/activities/japan/") },
+];
+
+// Drop duplicates (e.g. two roles at the same company), then sort and group by first letter.
+const unique = [...new Map(entries.map((item) => [item.term, item])).values()];
+const sortKey = (term: string) => term.replace(/^[^A-Za-z0-9]+/, "").toLowerCase();
+unique.sort((a, b) => sortKey(a.term).localeCompare(sortKey(b.term)));
+const groups = unique.reduce<Map<string, IndexEntry[]>>((map, item) => {
+  const first = sortKey(item.term).charAt(0);
+  const letter = /[a-z]/.test(first) ? first.toUpperCase() : "#";
+  map.set(letter, [...(map.get(letter) ?? []), item]);
+  return map;
+}, new Map());
+---
+
+<BaseLayout title="Page not found" description="This page isn't in the archive. Use the index to find what you were looking for." noindex>
+  <section class="page-header document-band index-header">
+    <p class="eyebrow">Error 404 · Index</p>
+    <h1>Entry not found</h1>
+    <p>This page isn't in the archive. It may have moved, or the link may be mistyped. Look it up in the index below.</p>
+  </section>
+
+  <nav class="encyclopedia-index paper-card" aria-label="Site index">
+    <p class="index-key">
+      <strong>Bold</strong> entries are whole pages, numbered in the order they appear in the menu.
+    </p>
+    <div class="index-columns">
+      {[...groups].map(([letter, items]) => (
+        <section class="index-letter" aria-labelledby={`index-${letter}`}>
+          <h2 id={`index-${letter}`}>{letter}</h2>
+          <ul>
+            {items.map((item) => (
+              <li class:list={["index-entry", { "is-page": item.isPage }]}>
+                <a href={item.href}>
+                  <span class="index-term">{item.term}</span>
+                  <span class="index-leader" aria-hidden="true"></span>
+                  <span class="index-ref">
+                    {item.isPage
+                      ? (item.pageNo ? <>p. {item.pageNo}</> : item.page)
+                      : <><em>see</em> {item.page}</>}
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))}
+    </div>
+  </nav>
+</BaseLayout>

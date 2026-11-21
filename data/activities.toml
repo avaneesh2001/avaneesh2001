@@ -3,26 +3,30 @@ page_intro = "Leadership, events, and interests beyond core engineering work"
 
 [[activities]]
 title = "SAKURA Science Exchange Program"
+date = "May 2018"
+story_href = "/activities/japan/"
+story_label = "Read the field notes"
 category = "International"
 color_tag = "jade"
 short_description = "Participated in international science exchange program in Japan"
 
 [[activities.image_entries]]
-path = "/avaneesh2001/images/SAKURA.jpeg"
-caption = "Interacted with leading researchers, such as the Nobel laureate Hideki Shirakawa."
+path = "images/SAKURA.jpeg"
+caption = "With Nobel laureate Hideki Shirakawa (centre) and fellow participants of the Japan–Asia Youth Exchange Program in Science"
 
 [[activities.image_entries]]
-path = "/avaneesh2001/images/SAKURA2.jpg"
-caption = "Presentation at Keio University"
+path = "images/SAKURA2.jpg"
+caption = "Sharing our experience of the program with students at Keio University"
 
 
 # Optional captioned image format:
 # [[activities.image_entries]]
-# path = "/images/example.jpg"
+# path = "images/example.jpg"
 # caption = "Short optional caption"
 
 [[activities]]
 title = "Technical Head – Sanket"
+date = "2023"
 category = "Leadership"
 color_tag = "sapphire"
 short_description = "Led planning and execution of department techfest, coordinating teams and technical events"
@@ -33,7 +37,9 @@ title = "Ignite: techfest"
 category = "Presentation"
 color_tag = "amethyst"
 short_description = "Actively participated during Qualcomm's Ignite TechFest"
-images = ["/avaneesh2001/images/ignite.jpg"]
+[[activities.image_entries]]
+path = "images/ignite.jpg"
+caption = "At Qualcomm’s Ignite TechFest"
 
 
 [[activities]]
@@ -44,22 +50,37 @@ short_description = "Managed design and visual identity for events and departmen
 images = [""]
 
 [[activities]]
+title = "Program Committee – Ragam & Tathva"
+date = "2022 & 2023"
+category = "Leadership"
+color_tag = "sapphire"
+short_description = "Program committee member for NIT Calicut’s Ragam and Tathva festivals (2022 & 2023). Wrote the festival theme document and helped run Invest Elixir, a stock-market simulation event"
+
+[[activities]]
 title = "Karate Black Belt"
+date = "Dec 2018"
 category = "Sports"
 color_tag = "teal"
 short_description = "Achieved black belt, reflecting long-term discipline and consistency"
-images = ["/avaneesh2001/images/black_belt.png"]
+[[activities.image_entries]]
+path = "images/black_belt.png"
+caption = "Black belt (Shodan) certificate, Traditional Shotokan Karate-Do Organisation"
 
 [[activities]]
 title = "Debate, Skit & Extempore"
 category = "Cultural"
 color_tag = "amethyst"
 short_description = "Actively participated and won multiple events across speaking and performance"
-images = ["/avaneesh2001/images/skit.jpg"]
+[[activities.image_entries]]
+path = "images/skit.jpg"
+caption = "Performing a skit at the school annual day"
 
 [[activities]]
 title = "Disha 2023"
+date = "2023"
 category = "Presentation"
 color_tag = "amethyst"
-short_description = "Helped students decide the course of their studies durring Disha 2023 organized by Govt. of Kerala"
-images = ["/avaneesh2001/images/Disha.jpg"]
+short_description = "Helped students decide the course of their studies during Disha 2023, organized by the Government of Kerala"
+[[activities.image_entries]]
+path = "images/Disha.jpg"
+caption = "With the NIT Calicut team at Disha 2023"

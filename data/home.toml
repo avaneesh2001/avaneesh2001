@@ -2,8 +2,8 @@
 hero_headline = "R Avaneesh"
 hero_subheadline = """Senior Engineer at Qualcomm building backend systems, automation frameworks, and AI-powered developer tools.
 Focused on turning complex codebases into scalable, reliable systems."""
-primary_cta_label = "Resume"
-primary_cta_href = "/avaneesh2001/resume.pdf"
+primary_cta_label = "Résumé"
+primary_cta_href = "/resume.pdf"
 secondary_cta_label = "GitHub"
 secondary_cta_href = "https://github.com/avaneesh2001"
 linkedin_cta_label = "LinkedIn"
@@ -20,7 +20,7 @@ line_three = "Applied AI workflows"
 eyebrow = "About"
 headline = "About me"
 body = """I’m a Senior Engineer at Qualcomm in Chennai, focused on code intelligence, backend systems, automation, and applied AI.
-At Qualcomm, I extend the Quartz code intelligence platform with SystemC support, component search, MCP workflows, and integrations across SDK and backend layers. Previously at Truminds, I worked across telecom testing systems, large-scale code analysis, and LLM-based developer tooling. My work ranges from building dependency graph systems that handle millions of queries to designing pipelines that generate unit tests using large language models.
+At Qualcomm, I extend an internal code intelligence platform with SystemC support, component search, MCP workflows, and integrations across SDK and backend layers. Previously at Truminds, I worked across telecom testing systems, large-scale code analysis, and LLM-based developer tooling. My work ranges from building a dependency graph system that has served 3M+ queries for 3k+ engineers across 7k+ repositories to designing pipelines that generate unit tests using large language models.
 I enjoy working on problems that sit between systems and intelligence. Things like code understanding, automation at scale, and building tools that make developers faster.
 I tend to take ownership end-to-end, from design to deployment, and I’m comfortable working in ambiguous problem spaces."""
 side_note = "Exploring how AI can automate complex engineering tasks at scale"
@@ -29,7 +29,7 @@ side_note = "Exploring how AI can automate complex engineering tasks at scale"
 eyebrow = "Contact"
 headline = "Let’s connect"
 description = "Always open to interesting problems and collaborations"
-email_label = "Email"
+email_label = "ravaneesh1@gmail.com"
 email_href = "mailto:ravaneesh1@gmail.com"
 linkedin_label = "LinkedIn"
 linkedin_href = "https://linkedin.com/in/avaneesh-r/"
@@ -42,31 +42,31 @@ description = "Improved conditional test coverage from 50% to 83% across large c
 
 [[selected_impact_items]]
 title = "Code dependency graph system"
-description = "Built a multi-language system handling millions of queries with low-latency retrieval"
+description = "Built a multi-language system indexing 7k+ repositories, serving 3M+ queries for 3k+ active users"
 
 [[selected_impact_items]]
 title = "Automation at scale"
 description = "Developed 47+ telecom test cases, reducing manual testing effort significantly"
 
 [[selected_impact_items]]
-title = "Large-scale ingestion pipeline"
-description = "Turned large, messy codebases into fast, queryable systems"
+title = "Gold Medalist, NIT Calicut"
+description = "Graduated top of the Electronics and Communication Engineering batch with a CGPA of 9.69"
 
 
 [[section_preview_cards]]
 title = "Experience"
 description = "Backend systems, telecom automation, and LLM-driven engineering work"
-href = "/avaneesh2001/experience/"
+href = "/experience/"
 accent = "sapphire"
 
 [[section_preview_cards]]
 title = "Projects"
 description = "AI systems, developer tools, and experimental builds"
-href = "/avaneesh2001/projects/"
+href = "/projects/"
 accent = "emerald"
 
 [[section_preview_cards]]
 title = "Activities"
 description = "Leadership, events, and creative involvement beyond engineering"
-href = "/avaneesh2001/activities/"
+href = "/activities/"
 accent = "garnet"

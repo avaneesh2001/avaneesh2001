@@ -2,3 +2,8 @@ node_modules/
 dist/
 .astro/
 .DS_Store
+
+# TinaCMS local editor (generated; never deployed)
+public/admin/
+tina/__generated__/
+tina/tina-lock.json
