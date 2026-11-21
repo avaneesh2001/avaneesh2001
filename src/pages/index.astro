@@ -1,33 +1,35 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
 import { getContentFile } from "@lib/content";
+import { withBase } from "@lib/paths";
 import type { HomeContent } from "../types/content";
 
 const homeContent = getContentFile<HomeContent>("home");
+const aboutParagraphs = homeContent.about_scroll.body.split("\n").map((line) => line.trim()).filter(Boolean);
 ---
 
-<BaseLayout title="Home" description={homeContent.hero.hero_subheadline} accent="sapphire">
+<BaseLayout title="Home" description={homeContent.hero.hero_subheadline} accent="sapphire" isHome>
   <section class="hero-section">
     <div class="hero-copy" data-reveal>
       <p class="eyebrow">Portfolio dossier</p>
       <h1>{homeContent.hero.hero_headline}</h1>
       <p>{homeContent.hero.hero_subheadline}</p>
-      <div class="button-row">
-        <a class="button button-primary" href={homeContent.hero.primary_cta_href}>{homeContent.hero.primary_cta_label}</a>
-        <a class="button button-secondary" href={homeContent.hero.secondary_cta_href}>{homeContent.hero.secondary_cta_label}</a>
+      <div class="button-row hero-buttons">
+        <a class="button button-primary" href={withBase(homeContent.hero.primary_cta_href)}>{homeContent.hero.primary_cta_label}<span class="visually-hidden"> (PDF)</span></a>
+        <a class="button button-secondary" href={homeContent.contact_card.email_href}>Email</a>
         <a class="button button-secondary" href={homeContent.hero.linkedin_cta_href}>{homeContent.hero.linkedin_cta_label}</a>
+        <a class="button button-secondary" href={homeContent.hero.secondary_cta_href}>{homeContent.hero.secondary_cta_label}</a>
       </div>
     </div>
-    <div class="hero-archive" aria-hidden="true" data-reveal>
-      <div class="paper-layer layer-one"></div>
-      <div class="paper-layer layer-two"></div>
-      <div class="paper-layer layer-three">
-        <h3>{homeContent.hero_archive_card.label}</h3>
-        <span>{homeContent.hero_archive_card.line_one }</span>
-        <span>{homeContent.hero_archive_card.line_two }</span>
-        <span>{homeContent.hero_archive_card.line_three }</span>
-      </div>
-    </div>
+    <!-- The one sticky note on the site: notes are only used for things that really are notes. -->
+    <aside class="sticky-note" aria-labelledby="current-focus-heading" data-reveal>
+      <h2 id="current-focus-heading">{homeContent.hero_archive_card.label}</h2>
+      <ul>
+        <li>{homeContent.hero_archive_card.line_one}</li>
+        <li>{homeContent.hero_archive_card.line_two}</li>
+        <li>{homeContent.hero_archive_card.line_three}</li>
+      </ul>
+    </aside>
   </section>
 
   <section class="about-scroll-section" aria-labelledby="about-scroll-heading">
@@ -37,9 +39,18 @@ const homeContent = getContentFile<HomeContent>("home");
         <div class="scroll-copy">
           <p class="eyebrow">{homeContent.about_scroll.eyebrow}</p>
           <h2 id="about-scroll-heading">{homeContent.about_scroll.headline}</h2>
-          {homeContent.about_scroll.body.split("\n").map((paragraph) => (
-            <p>{paragraph}</p>
-          ))}
+          {/* The first paragraph always shows; on phones the rest stays rolled up until asked for. */}
+          <p>{aboutParagraphs[0]}</p>
+          {aboutParagraphs.length > 1 && (
+            <>
+              <div class="about-more" id="about-more" data-about-more>
+                {aboutParagraphs.slice(1).map((paragraph) => <p>{paragraph}</p>)}
+              </div>
+              <button class="about-more-toggle" type="button" aria-expanded="true" aria-controls="about-more" hidden data-about-more-toggle>
+                Unroll the rest
+              </button>
+            </>
+          )}
         </div>
         <aside class="scroll-note">
           <span></span>
@@ -73,7 +84,7 @@ const homeContent = getContentFile<HomeContent>("home");
     </div>
     <div class="preview-grid">
       {homeContent.section_preview_cards.map((previewCard) => (
-        <a class={`folder-card accent-${previewCard.accent}`} href={previewCard.href} data-reveal>
+        <a class={`folder-card accent-${previewCard.accent}`} href={withBase(previewCard.href)} data-reveal>
           <span class="folder-tab"></span>
           <span class="folder-label">{previewCard.title}</span>
           <strong>{previewCard.description}</strong>
@@ -96,4 +107,20 @@ const homeContent = getContentFile<HomeContent>("home");
       </div>
     </article>
   </section>
+
+  <script>
+    // On phones, keep the About scroll short: roll up everything after the first paragraph.
+    const more = document.querySelector("[data-about-more]");
+    const toggle = document.querySelector("[data-about-more-toggle]");
+    if (more instanceof HTMLElement && toggle instanceof HTMLButtonElement && window.matchMedia("(max-width: 720px)").matches) {
+      const setOpen = (open: boolean) => {
+        more.classList.toggle("is-rolled", !open);
+        toggle.setAttribute("aria-expanded", String(open));
+        toggle.textContent = open ? "Roll it back up" : "Unroll the rest";
+      };
+      toggle.hidden = false;
+      setOpen(false);
+      toggle.addEventListener("click", () => setOpen(more.classList.contains("is-rolled")));
+    }
+  </script>
 </BaseLayout>

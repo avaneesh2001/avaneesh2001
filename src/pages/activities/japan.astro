@@ -1,0 +1,74 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import PageHeader from "@components/PageHeader.astro";
+import JapanMap from "@components/JapanMap.astro";
+import ImagePlaceholder from "@components/ImagePlaceholder.astro";
+import { getContentFile } from "@lib/content";
+import type { JapanContent } from "../../types/content";
+
+const japan = getContentFile<JapanContent>("japan");
+const introParagraphs = japan.intro.split("\n").map((line) => line.trim()).filter(Boolean);
+---
+
+<BaseLayout
+  title={japan.title}
+  description={introParagraphs[0]}
+  attachment="Japan, May 2018"
+  ogImage="/og-japan.png"
+  ogImageAlt="Map of a week in Japan in May 2018: Tokyo, under Tokyo Bay to Kimitsu, up to Tsukuba and back"
+>
+  <PageHeader eyebrow={japan.eyebrow} title={japan.title} intro={introParagraphs[0]} />
+  {introParagraphs.slice(1).map((paragraph) => <p class="japan-intro-more">{paragraph}</p>)}
+
+  <section class="japan-story" aria-label="Stops on the trip">
+    <div class="japan-map-column">
+      <JapanMap stops={japan.stops} />
+      {japan.map_note && <p class="japan-map-note">{japan.map_note}</p>}
+    </div>
+
+    <ol class="japan-stops">
+      {japan.stops.map((stop, index) => (
+        <li class:list={["japan-stop", { "is-off-route": stop.off_route }]} id={`stop-${index + 1}`} data-stop={index + 1}>
+          <span class="japan-stop-number" aria-hidden="true">{index + 1}</span>
+          <div class="japan-stop-body">
+            <p class="item-date">{stop.area}{stop.off_route && " · sometime that week"}</p>
+            <h2>{stop.headline}</h2>
+            <p class="japan-stop-place">{stop.name}</p>
+            <p>{stop.story}</p>
+            {stop.image && <ImagePlaceholder imagePath={stop.image} label={stop.image_caption || stop.name} caption={stop.image_caption} />}
+            {stop.link_href && (
+              <a class="japan-stop-link" href={stop.link_href}>{stop.link_label || "Watch"} <span aria-hidden="true">↗</span></a>
+            )}
+          </div>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  {japan.afterword && (
+    <aside class="japan-afterword">
+      <p class="eyebrow">{japan.afterword_title}</p>
+      <p>{japan.afterword}</p>
+    </aside>
+  )}
+
+  <script>
+    // Light up the pin for the story being read (or hovered), so the map follows along.
+    const pins = new Map([...document.querySelectorAll<SVGAElement>("[data-pin]")].map((pin) => [pin.dataset.pin, pin]));
+    const setActive = (number: string | undefined) => pins.forEach((pin, key) => pin.classList.toggle("is-active", key === number));
+
+    const stops = [...document.querySelectorAll<HTMLElement>("[data-stop]")];
+    stops.forEach((stop) => {
+      stop.addEventListener("mouseenter", () => setActive(stop.dataset.stop));
+      stop.addEventListener("focusin", () => setActive(stop.dataset.stop));
+    });
+
+    if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver((entries) => {
+        const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+        if (visible[0]) setActive((visible[0].target as HTMLElement).dataset.stop);
+      }, { rootMargin: "-35% 0px -55% 0px" });
+      stops.forEach((stop) => observer.observe(stop));
+    }
+  </script>
+</BaseLayout>

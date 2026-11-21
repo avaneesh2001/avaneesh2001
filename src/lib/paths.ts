@@ -1,18 +1,20 @@
-const DEPLOY_BASE_PATH = "/avaneesh2001";
+// The deploy base (e.g. "/avaneesh2001/") comes from `base` in astro.config.mjs,
+// so content files can use root-relative paths like "/projects/".
+const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
 
-const stripDeployBase = (value: string): string => {
-  if (value === DEPLOY_BASE_PATH || value === `${DEPLOY_BASE_PATH}/`) return "/";
-  if (value.startsWith(`${DEPLOY_BASE_PATH}/`)) return value.slice(DEPLOY_BASE_PATH.length);
-  return value;
-};
+const isInternal = (href: string) => href.startsWith("/") && !href.startsWith("//");
 
-const normalizeInternalPath = (value: string): string => {
-  const strippedValue = stripDeployBase(value);
-  if (!strippedValue.startsWith("/")) return `/${strippedValue}`;
-  return strippedValue;
-};
+/** Prefix an internal root-relative path with the deploy base; leave external links alone. */
+export function withBase(href: string): string {
+  if (!isInternal(href)) return href;
+  if (BASE && (href === BASE || href.startsWith(`${BASE}/`))) return href;
+  return `${BASE}${href}`;
+}
 
+/** Strip the deploy base from a pathname so it can be compared with content paths. */
 export function withoutBase(pathname: string): string {
   if (!pathname) return "/";
-  return normalizeInternalPath(pathname);
+  let path = pathname;
+  if (BASE && (path === BASE || path.startsWith(`${BASE}/`))) path = path.slice(BASE.length);
+  return path.startsWith("/") ? path : `/${path}`;
 }

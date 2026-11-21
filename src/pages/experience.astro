@@ -1,8 +1,10 @@
 ---
 import ImagePlaceholder from "@components/ImagePlaceholder.astro";
+import SiteImage from "@components/SiteImage.astro";
 import PageHeader from "@components/PageHeader.astro";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import { getContentFile } from "@lib/content";
+import { experienceLabel, toAnchor } from "@lib/anchors";
 import type { ExperienceContent } from "../types/content";
 
 const experienceContent = getContentFile<ExperienceContent>("experience");
@@ -13,10 +15,13 @@ const experienceContent = getContentFile<ExperienceContent>("experience");
 
   <section class="timeline-section" aria-label="Experience timeline">
     {experienceContent.experience_entries.map((entry) => (
-      <article class={`timeline-card paper-card accent-${entry.accent}`} data-reveal>
+      <article id={toAnchor(experienceLabel(entry))} class={`timeline-card paper-card accent-${entry.accent}`} data-reveal>
         <div class="timeline-marker" aria-hidden="true"></div>
         <div class="role-card-header">
           <div>
+            {entry.organization_logo && (
+              <SiteImage class="organization-logo" src={entry.organization_logo} alt="" displayWidth={150} sizes="150px" loading="lazy" style={entry.organization_logo_height ? `height: ${entry.organization_logo_height}px` : undefined} />
+            )}
             <p class="eyebrow">{entry.duration} · {entry.location}</p>
             <h2>{entry.role_title}</h2>
             <p class="organization-name">{entry.organization_name}</p>
@@ -35,7 +40,7 @@ const experienceContent = getContentFile<ExperienceContent>("experience");
                 {entry.detailed_bullets.map((bullet) => <li>{bullet}</li>)}
               </ul>
             </div>
-            <ImagePlaceholder imagePath={entry.optional_image} label="Experience visual" />
+            <ImagePlaceholder imagePath={entry.optional_image} label={`${entry.role_title} at ${entry.organization_name}`} />
           </div>
         </details>
       </article>

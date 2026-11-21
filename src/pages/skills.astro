@@ -2,9 +2,49 @@
 import PageHeader from "@components/PageHeader.astro";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import { getContentFile } from "@lib/content";
-import type { SkillsContent } from "../types/content";
+import { experienceLabel, toAnchor } from "@lib/anchors";
+import { withBase } from "@lib/paths";
+import type { ActivitiesContent, EducationContent, ExperienceContent, ProjectsContent, SkillsContent } from "../types/content";
 
 const skillsContent = getContentFile<SkillsContent>("skills");
+const experienceContent = getContentFile<ExperienceContent>("experience");
+const projectsContent = getContentFile<ProjectsContent>("projects");
+const activitiesContent = getContentFile<ActivitiesContent>("activities");
+const educationContent = getContentFile<EducationContent>("education");
+
+// Every label a skill points at must name a real entry, so the links always land somewhere.
+const targets = {
+  projects: new Set([
+    ...projectsContent.featured_projects.map((project) => project.project_title),
+    ...projectsContent.project_archive.map((project) => project.title),
+  ]),
+  experience: new Set(experienceContent.experience_entries.map(experienceLabel)),
+  activities: new Set(activitiesContent.activities.map((activity) => activity.title)),
+  education: new Set([educationContent.education_details.institution_name]),
+};
+const pages = { projects: "/projects/", experience: "/experience/", activities: "/activities/", education: "/education/" } as const;
+
+const linksFor = (skillName: string, kind: keyof typeof targets, labels: string[] = []) =>
+  labels.map((label) => {
+    if (!targets[kind].has(label)) {
+      throw new Error(`skills.toml: "${skillName}" lists ${kind} "${label}", but no ${kind} entry has that name. Known: ${[...targets[kind]].join(" | ")}`);
+    }
+    return { label, href: withBase(`${pages[kind]}#${toAnchor(label)}`) };
+  });
+
+// A short "where it was used" line under each skill chip, so the page can be scanned without
+// opening every skill: companies from the experience labels, initials for education
+// ("National Institute of Technology Calicut" → "NITC"), else "Projects" or the activity.
+const initials = (name: string) => name.split(/\s+/).filter((word) => /^[A-Z]/.test(word)).map((word) => word[0]).join("");
+const usedAt = (skill: SkillsContent["skill_groups"][number]["skills"][number]) => {
+  const places = [
+    ...skill.related_experience.map((label) => label.split("·").pop()?.trim() ?? label),
+    ...(skill.related_education ?? []).map(initials),
+  ];
+  if (places.length === 0 && skill.related_projects.length > 0) places.push("Projects");
+  if (places.length === 0) places.push(...(skill.related_activities ?? []).map((title) => title.split(/\s+/)[0]));
+  return [...new Set(places)].join(" · ");
+};
 ---
 
 <BaseLayout title="Skills" description={skillsContent.page_intro} accent="amethyst">
@@ -24,7 +64,12 @@ const skillsContent = getContentFile<SkillsContent>("skills");
             <article class="capability-document">
               <button class="capability-button" type="button" aria-haspopup="dialog" aria-controls={dialogId} data-skill-dialog-trigger={dialogId}>
                 <span class="skill-name-dot"></span>
-                <span>{skill.skill_name}</span>
+                <span class="capability-button-text">
+                  <span>{skill.skill_name}</span>
+                  {skill.tag
+                    ? <span class="capability-used-at">{skill.tag}</span>
+                    : usedAt(skill) && <span class="capability-used-at"><span class="visually-hidden">Used at </span>{usedAt(skill)}</span>}
+                </span>
               </button>
               <dialog id={dialogId} class={`skill-dialog accent-${skillGroup.accent}`} aria-labelledby={`${dialogId}-title`} aria-describedby={`${dialogId}-description`} data-skill-dialog>
                 <div class="skill-dialog-panel">
@@ -34,18 +79,21 @@ const skillsContent = getContentFile<SkillsContent>("skills");
                   <div class="capability-proof-panel">
                 <p id={`${dialogId}-description`}>{skill.short_context}</p>
                 <dl class="capability-proof-list">
-                  {skill.related_projects.length > 0 && (
+                  {[
+                    { title: "Related experience", links: linksFor(skill.skill_name, "experience", skill.related_experience) },
+                    { title: "Related projects", links: linksFor(skill.skill_name, "projects", skill.related_projects) },
+                    { title: "Related education", links: linksFor(skill.skill_name, "education", skill.related_education) },
+                    { title: "Related activities", links: linksFor(skill.skill_name, "activities", skill.related_activities) },
+                  ].filter((group) => group.links.length > 0).map((group) => (
                     <div>
-                      <dt>Related projects</dt>
-                      <dd>{skill.related_projects.join(", ")}</dd>
+                      <dt>{group.title}</dt>
+                      <dd>
+                        <ul class="capability-proof-links">
+                          {group.links.map((link) => <li><a href={link.href}>{link.label}</a></li>)}
+                        </ul>
+                      </dd>
                     </div>
-                  )}
-                  {skill.related_experience.length > 0 && (
-                    <div>
-                      <dt>Related experience</dt>
-                      <dd>{skill.related_experience.join(", ")}</dd>
-                    </div>
-                  )}
+                  ))}
                 </dl>
               </div>
                 </div>

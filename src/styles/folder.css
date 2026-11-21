@@ -1,0 +1,668 @@
+/*
+ * The site as a folder: a label and index tabs on desktop, a slim bar on phones,
+ * and every page as one sheet of paper inside a manila folder.
+ * Loaded after global.css, so these rules win where they overlap.
+ */
+
+:root {
+  --desk: #e9dfcc;
+  --folder: #d8c194;
+  --folder-edge: #c4a96f;
+  --mono-font: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+body {
+  background: var(--desk);
+}
+
+/* ---------- Folder label (desktop) ---------- */
+.folder-name {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.9rem;
+  padding: 1.4rem 4px 0.6rem;
+}
+
+.folder-name .brand-mark {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  min-height: 44px;
+  color: var(--ink);
+}
+
+.folder-name .brand-logo-frame,
+.folder-name .brand-logo,
+.folder-name .brand-monogram {
+  width: 36px;
+  height: 36px;
+}
+
+.folder-name strong {
+  font: 650 1.3rem/1.1 var(--heading-font);
+}
+
+.folder-name-tagline {
+  color: var(--muted-ink);
+  font: 0.8rem/1.4 var(--mono-font);
+}
+
+/* ---------- Index tabs (desktop) ---------- */
+.file-tabs {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  gap: 4px;
+  padding: 10px 14px 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+  background: var(--desk);
+}
+
+.file-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.file-tab {
+  --c: var(--sapphire);
+  position: relative;
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 44px;
+  margin-top: 8px;
+  padding: 0.5rem 1rem 0.55rem;
+  color: color-mix(in srgb, var(--c), black 25%);
+  font-size: 0.92rem;
+  font-weight: 700;
+  background: color-mix(in srgb, var(--c) 18%, var(--paper-soft));
+  border: 1px solid color-mix(in srgb, var(--c) 35%, transparent);
+  border-bottom: 0;
+  border-radius: 10px 10px 0 0;
+  white-space: nowrap;
+  transition: margin-top 150ms ease, background-color 150ms ease;
+}
+
+.file-tab-number {
+  font: 500 0.72rem var(--mono-font);
+  opacity: 0.75;
+}
+
+.file-tab:hover {
+  margin-top: 4px;
+}
+
+.file-tab:focus-visible {
+  outline: 3px solid var(--c);
+  outline-offset: 2px;
+}
+
+/* The open page's tab stands in front and joins the sheet below it. */
+.file-tab[aria-current="page"] {
+  z-index: 2;
+  margin-top: 0;
+  padding-bottom: 0.9rem;
+  color: var(--ink);
+  background: var(--paper-soft);
+  border-color: var(--hairline);
+  border-top: 4px solid var(--c);
+}
+
+.file-tab[aria-current="page"]::after {
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  left: 0;
+  height: 2px;
+  content: "";
+  background: var(--paper-soft);
+}
+
+/* ---------- Folder and sheet ---------- */
+.folder {
+  position: relative;
+  margin-bottom: 2.5rem;
+  padding: 0 14px 14px;
+  background: var(--folder);
+  border: 1px solid var(--folder-edge);
+  border-radius: 0 12px 12px 12px;
+}
+
+.sheet {
+  display: block;
+  padding: clamp(1.4rem, 4vw, 3rem);
+  background: var(--paper-soft);
+  border: 1px solid var(--hairline);
+  border-radius: 0 6px 6px 6px;
+  box-shadow: 0 1px 0 rgba(68, 52, 28, 0.08), 0 12px 30px rgba(68, 52, 28, 0.12);
+}
+
+.file-ref {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.4rem 1rem;
+  margin: 0 0 1.6rem;
+  padding-bottom: 0.7rem;
+  color: var(--muted-ink);
+  font: 0.8rem/1.4 var(--mono-font);
+  letter-spacing: 0.02em;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.file-ref b {
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.page-foot {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 2.4rem;
+  padding-top: 0.8rem;
+  color: var(--muted-ink);
+  font: 0.8rem/1.4 var(--mono-font);
+  border-top: 1px solid var(--hairline);
+}
+
+.page-foot a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  min-height: 44px;
+  color: var(--accent);
+}
+
+.page-foot a:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.page-foot-next {
+  justify-self: end;
+}
+
+/* On desktop the tabs do the work of "previous"; it returns as a button on phones. */
+.page-foot-prev {
+  visibility: hidden;
+}
+
+/* ---------- Content inside the sheet ---------- */
+
+/* The page header becomes the sheet's title block rather than a card of its own. */
+.sheet .page-header {
+  margin: 0 0 2rem;
+  padding: 0 0 1.8rem;
+  background: none;
+  border: 0;
+  border-bottom: 1px solid var(--hairline);
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* Cards read as documents clipped inside the folder: lighter, with less lift. */
+.sheet .paper-card,
+.sheet .folder-card,
+.sheet .archive-row,
+.sheet .document-band:not(.page-header) {
+  background: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 1px 2px rgba(68, 52, 28, 0.07);
+}
+
+.sheet .paper-card:hover,
+.sheet .folder-card:hover,
+.sheet .archive-row:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(68, 52, 28, 0.1);
+}
+
+.sheet .hero-section {
+  min-height: 0;
+  padding: 0.5rem 0 3rem;
+}
+
+.sheet > section:last-of-type,
+.sheet .home-contact-section {
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+
+/* Linked entries land just below the sticky tabs. */
+.sheet :is(.timeline-card, .project-card, .archive-row, .journey-card, .achievement-card, .education-panel)[id] {
+  scroll-margin-top: 5.5rem;
+}
+
+/* ---------- The one sticky note (Home: current focus) ---------- */
+.sticky-note {
+  position: relative;
+  justify-self: center;
+  width: min(100%, 320px);
+  padding: 1.3rem 1.4rem 1.5rem;
+  color: #4d3f12;
+  background: #f6e7a6;
+  box-shadow: 0 8px 18px rgba(68, 52, 28, 0.16);
+  transform: rotate(1.5deg);
+}
+
+/* A strip of tape holding the note on. */
+.sticky-note::before {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  width: 78px;
+  height: 20px;
+  content: "";
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transform: translateX(-50%) rotate(-2deg);
+}
+
+.sticky-note h2 {
+  margin: 0 0 0.5rem;
+  color: #3b300c;
+  font-size: 1.35rem;
+}
+
+.sticky-note ul {
+  display: grid;
+  gap: 0.15rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sticky-note li {
+  padding: 0.3rem 0;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(77, 63, 18, 0.18);
+}
+
+.sticky-note li:last-child {
+  border-bottom: 0;
+}
+
+/* ---------- Phone bar (hidden on desktop) ---------- */
+.phone-bar {
+  display: none;
+}
+
+/* ---------- Phones ---------- */
+@media (max-width: 720px) {
+  .site-shell {
+    width: 100%;
+  }
+
+  .folder-name,
+  .file-tabs {
+    display: none;
+  }
+
+  .phone-bar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.55rem 12px;
+    background: var(--folder);
+    border-bottom: 1px solid var(--folder-edge);
+  }
+
+  .phone-bar-who {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 0;
+    min-height: 44px;
+    color: var(--ink);
+  }
+
+  .phone-bar-who strong {
+    display: block;
+    font: 650 1.05rem/1.15 var(--heading-font);
+  }
+
+  .phone-bar-where {
+    display: block;
+    overflow: hidden;
+    color: #4f4430;
+    font: 0.75rem/1.3 var(--mono-font);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .phone-bar-button {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 0.85rem;
+    color: var(--ink);
+    font: 700 0.92rem var(--body-font);
+    background: var(--paper-soft);
+    border: 1px solid var(--folder-edge);
+    border-radius: var(--radius);
+    cursor: pointer;
+  }
+
+  /* Contents: an index card listing every file. */
+  .contents-card {
+    position: absolute;
+    top: calc(100% + 6px);
+    right: 12px;
+    left: 12px;
+    padding: 0.4rem 0.9rem 0.6rem;
+    background: var(--paper-soft);
+    border: 1px solid var(--hairline);
+    border-top: 4px solid var(--accent);
+    box-shadow: 0 14px 30px rgba(68, 52, 28, 0.25);
+  }
+
+  .contents-card[hidden] {
+    display: none;
+  }
+
+  .contents-card-title {
+    margin: 0.3rem 0 0.2rem;
+    color: var(--muted-ink);
+    font: 0.75rem var(--mono-font);
+  }
+
+  .contents-card a {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    min-height: 48px;
+    color: var(--ink);
+    font-size: 1.02rem;
+    font-weight: 600;
+    border-bottom: 1px dashed var(--hairline);
+  }
+
+  .contents-card a:last-child {
+    border-bottom: 0;
+  }
+
+  .contents-card-dot {
+    width: 12px;
+    height: 12px;
+    flex: 0 0 auto;
+    background: color-mix(in srgb, var(--c) 45%, #fdf6dc);
+    border: 1px solid color-mix(in srgb, var(--c) 50%, transparent);
+  }
+
+  .contents-card-number {
+    color: var(--muted-ink);
+    font: 0.75rem var(--mono-font);
+  }
+
+  .contents-card a[aria-current="page"] {
+    font-weight: 800;
+  }
+
+  .contents-card a[aria-current="page"]::after {
+    margin-left: auto;
+    content: "you are here";
+    color: var(--accent);
+    font: 0.7rem var(--mono-font);
+  }
+
+  /* The folder shrinks to a thin edge; the sheet gets nearly the full width. */
+  .folder {
+    margin-bottom: 0;
+    padding: 6px;
+    border: 0;
+    border-radius: 0;
+  }
+
+  .sheet {
+    padding: 1.3rem 1.1rem 1.4rem;
+    border-radius: 4px;
+    box-shadow: 0 1px 0 rgba(68, 52, 28, 0.08);
+  }
+
+  .file-ref {
+    margin-bottom: 1.1rem;
+  }
+
+  .file-ref-owner {
+    display: none;
+  }
+
+  .sheet .page-header {
+    margin-bottom: 1.4rem;
+    padding-bottom: 1.3rem;
+  }
+
+  .sheet .hero-section {
+    gap: 2rem;
+    padding: 0 0 2.2rem;
+  }
+
+  /* Résumé, Email, LinkedIn, GitHub as an even 2×2 grid of big buttons. */
+  .hero-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+
+  .hero-buttons .button {
+    justify-content: center;
+    min-height: 48px;
+  }
+
+  .sticky-note {
+    width: min(100% - 1rem, 320px);
+  }
+
+  .sheet :is(.timeline-card, .project-card, .archive-row, .journey-card, .achievement-card, .education-panel)[id] {
+    scroll-margin-top: 5rem;
+  }
+
+  /* Big thumb-sized previous / next buttons at the end of each page. */
+  .page-foot {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "count count" "prev next";
+    gap: 0.5rem;
+  }
+
+  .page-foot-count {
+    grid-area: count;
+    text-align: center;
+  }
+
+  .page-foot-prev {
+    grid-area: prev;
+    visibility: visible;
+  }
+
+  .page-foot-next {
+    grid-area: next;
+    justify-self: stretch;
+  }
+
+  .page-foot a {
+    justify-content: center;
+    min-height: 48px;
+    padding: 0 0.6rem;
+    font: 700 0.95rem var(--body-font);
+    text-align: center;
+    background: rgba(255, 255, 255, 0.55);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius);
+  }
+
+  .page-foot .is-empty {
+    visibility: hidden;
+  }
+
+  .site-footer {
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+
+  /* Skill details slide up from the bottom as a sheet instead of a centred popup. */
+  .skill-dialog {
+    width: 100%;
+    max-width: 100%;
+    max-height: 88vh;
+    margin: auto 0 0;
+  }
+
+  .skill-dialog-panel {
+    padding-bottom: calc(1.6rem + env(safe-area-inset-bottom));
+    border-radius: 16px 16px 0 0;
+  }
+
+  .skill-dialog[open] {
+    animation: skill-sheet-up 220ms ease-out;
+  }
+
+  /* The panel's decorative tab becomes the usual bottom-sheet grab handle. */
+  .skill-dialog-panel::before {
+    top: 8px;
+    left: 50%;
+    width: 40px;
+    height: 5px;
+    background: rgba(38, 35, 31, 0.2);
+    border: 0;
+    border-radius: 999px;
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes skill-sheet-up {
+  from {
+    opacity: 0.6;
+    transform: translateY(48px);
+  }
+}
+
+/* Activity cards with photos: the desktop grid has 300px minimums (via :has, which outranks
+   the older responsive rules), so let the columns shrink on tablets and stack on phones. */
+@media (max-width: 920px) {
+  .journey-card:has(.journey-image-stack) {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  }
+
+  .journey-card.is-reversed:has(.journey-image-stack) {
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .journey-card:has(.journey-image-stack),
+  .journey-card.is-reversed:has(.journey-image-stack) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Landscape phones and short windows: don't let sticky chrome eat the screen. */
+@media (max-height: 500px) {
+  .file-tabs,
+  .phone-bar {
+    position: relative;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skill-dialog[open] {
+    animation: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .file-tab[aria-current="page"] {
+    border: 2px solid currentColor;
+  }
+}
+
+/* ---------- Skills: where each skill was used, readable without opening it ---------- */
+.capability-button-text {
+  display: grid;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.capability-used-at {
+  color: var(--muted-ink);
+  font: 500 0.74rem/1.3 var(--mono-font);
+  letter-spacing: 0.01em;
+}
+
+/* When an achievement or activity happened: a small typed line under its title. */
+.item-date {
+  margin: 0.15rem 0 0.35rem;
+  color: var(--muted-ink);
+  font: 500 0.8rem/1.3 var(--mono-font);
+}
+
+/* ---------- About scroll: rolled up after the first paragraph on phones ---------- */
+.about-more {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.about-more.is-rolled {
+  display: none;
+}
+
+.about-more-toggle {
+  justify-self: start;
+  min-height: 44px;
+  padding: 0 1rem;
+  color: var(--accent);
+  font: 700 0.95rem var(--body-font);
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px dashed color-mix(in srgb, var(--accent), transparent 55%);
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.about-more-toggle[hidden] {
+  display: none;
+}
+
+/* ---------- Activities on phones: one straight line connecting every card ---------- */
+@media (max-width: 640px) {
+  .activity-path,
+  .journey-card::before,
+  .journey-card.is-reversed::before {
+    display: none;
+  }
+
+  .activity-journey::before {
+    position: absolute;
+    top: 0.5rem;
+    bottom: 4rem;
+    left: 8px;
+    width: 2px;
+    content: "";
+    background: rgba(75, 61, 43, 0.22);
+    border-radius: 2px;
+  }
+
+  .activity-section-title {
+    margin-left: 32px;
+  }
+
+  .journey-card,
+  .journey-card.is-reversed {
+    width: calc(100% - 32px);
+    margin-left: 32px;
+  }
+
+  /* Each card's dot sits on the line, level with the top of the card. */
+  .journey-marker,
+  .journey-card.is-reversed .journey-marker {
+    top: 1.4rem;
+    right: auto;
+    left: -33px; /* centred on the line, allowing for the card's 1px border */
+  }
+}

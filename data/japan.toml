@@ -1,0 +1,91 @@
+title = "A week in Japan"
+eyebrow = "Field notes · May 2018"
+intro = """
+In May 2018 I spent a week in Japan on the SAKURA Science Exchange Program, the Japan–Asia Youth Exchange Program in Science.
+Students were chosen state by state. My "state" was Kendriya Vidyalaya Sangathan, and I was selected through the National Children's Science Congress; others came through the Jawaharlal Nehru National Science Exhibition."""
+map_note = "Numbered in the order we went; the dashed line is the route, and the bay crossing follows the Aqua-Line. Tap a pin to jump to its story."
+afterword_title = "What it changed"
+afterword = "I'd been drawn to Japan for years, mostly through anime and manga. This trip made it real: afterwards I started learning Japanese (JLPT N5) and took a much deeper interest in the country."
+
+[[stops]]
+name = "Rikkyo University"
+headline = "Meeting a Nobel laureate"
+area = "Ikebukuro, Tokyo"
+lon = 139.703
+lat = 35.733
+story = "Prof. Hideki Shirakawa shared the 2000 Nobel Prize in Chemistry for conductive polymers. With him, we made a sample of the flexible conductive polymer his prize was for, from a prepared solution and gallium–indium, while he explained how it works."
+image = "images/SAKURA.jpeg"
+image_caption = "With Prof. Hideki Shirakawa (centre) and fellow participants"
+
+[[stops]]
+name = "Edo-Tokyo Museum"
+headline = "Tokyo, before it was Tokyo"
+area = "Ryōgoku, Tokyo"
+off_route = false
+lon = 139.796
+lat = 35.697
+story = "A walk through the city's history, from Edo to modern Tokyo."
+image = "/images/edo-tokyo.webp"
+image_caption = "At the edo tokyo museum"
+
+[[stops]]
+name = "Miraikan"
+headline = "ASIMO, dancing"
+area = "Odaiba, Tokyo"
+lon = 139.777
+lat = 35.619
+story = "Honda's ASIMO performed for us, and it looked startlingly advanced. It felt like a glimpse of Asimov's The Caves of Steel becoming real."
+link_label = "Watch ASIMO on youtube"
+link_href = "https://youtu.be/7ZAQSVGvKGA"
+
+[[stops]]
+name = "Umi-hotaru, Tokyo Bay Aqua-Line"
+headline = "The drill that dug under the bay"
+area = "Middle of Tokyo Bay"
+via_aqua_line = true
+lon = 139.8747
+lat = 35.4638
+story = "The Aqua-Line runs through a tunnel under Tokyo Bay, then surfaces halfway across at Umi-hotaru, a rest stop on a man-made island. On display there is the cutting head of one of the giant tunnel-boring machines that dug the tunnel, about 14.14 metres across."
+image = "/images/aqua-line.webp"
+image_caption = "In front of the huge cutting head of the giant tunnel-boring machines "
+
+[[stops]]
+name = "Nippon Steel & Sumitomo Metal, Kimitsu Works"
+headline = "Over the bridge to a steelworks"
+area = "Kimitsu, Chiba"
+via_aqua_line = true
+lon = 139.872
+lat = 35.36
+story = "From Umi-hotaru the Aqua-Line becomes a bridge to the Chiba shore. Beyond it was the steelworks at Kimitsu, with a waste incinerator on site: engineering at a scale far from any school lab."
+image = "/images/steel.webp"
+image_caption = "Enormus steelworks at Kimitsu"
+
+[[stops]]
+name = "JAXA Tsukuba Space Center"
+headline = "Japan's space agency"
+area = "Tsukuba, Ibaraki"
+lon = 140.128
+lat = 36.065
+story = "A visit to JAXA's Tsukuba Space Center."
+image = "images/JAXA.jpg"
+image_caption = "At JAXA's Tsukuba Space Center"
+
+[[stops]]
+name = "A school in Tsukuba"
+headline = "A day with Japanese students"
+area = "Tsukuba, Ibaraki"
+lon = 140.1
+lat = 36.1
+story = "We visited Namiki school in Tsukuba."
+image = "/images/Namiki-high-school.webp"
+image_caption = "Introduction at Namiki High school"
+
+[[stops]]
+name = "Keio University"
+headline = "Swapping notes with students"
+area = "Mita, Tokyo"
+lon = 139.743
+lat = 35.649
+story = "Back in Tokyo, we talked with Keio students about our experience of the program."
+image = "images/SAKURA2.jpg"
+image_caption = "Sharing our experience with students at Keio University"

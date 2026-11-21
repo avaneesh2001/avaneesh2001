@@ -1,9 +1,11 @@
 ---
 import ImagePlaceholder from "@components/ImagePlaceholder.astro";
+import SiteVideo from "@components/SiteVideo.astro";
 import PageHeader from "@components/PageHeader.astro";
 import TagList from "@components/TagList.astro";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import { getContentFile } from "@lib/content";
+import { toAnchor } from "@lib/anchors";
 import type { ProjectsContent } from "../types/content";
 
 const projectsContent = getContentFile<ProjectsContent>("projects");
@@ -21,8 +23,10 @@ const hasProjectLink = (href: string) => href.trim().length > 0;
     </div>
     <div class="featured-project-grid">
       {projectsContent.featured_projects.map((project) => (
-        <article class="project-card paper-card" data-reveal>
-          <ImagePlaceholder imagePath={project.optional_image} label={`${project.project_title} project preview`} />
+        <article id={toAnchor(project.project_title)} class="project-card paper-card" data-reveal>
+          {project.optional_video
+            ? <SiteVideo src={project.optional_video} label={project.optional_image_alt || `${project.project_title} demo video`} />
+            : <ImagePlaceholder imagePath={project.optional_image} label={project.optional_image_alt || `${project.project_title} project preview`} />}
           <div class="project-card-body">
             <h3>{project.project_title}</h3>
             <p>{project.short_description}</p>
@@ -49,7 +53,7 @@ const hasProjectLink = (href: string) => href.trim().length > 0;
         const hasArchiveLink = hasProjectLink(project.github_link);
         const ArchiveElement = hasArchiveLink ? "a" : "article";
         return (
-          <ArchiveElement class:list={["archive-row", hasArchiveLink && "has-link"]} href={hasArchiveLink ? project.github_link : undefined} data-reveal>
+          <ArchiveElement id={toAnchor(project.title)} class:list={["archive-row", hasArchiveLink && "has-link"]} href={hasArchiveLink ? project.github_link : undefined} data-reveal>
             <strong>{project.title}</strong>
             <span>{project.brief_description}</span>
             {hasArchiveLink && <span class="archive-link-indicator">Open</span>}

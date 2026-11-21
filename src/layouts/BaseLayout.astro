@@ -1,45 +1,200 @@
 ---
 import "../styles/global.css";
+import "../styles/folder.css";
+import "../styles/japan.css";
+import "../styles/print.css";
 import Footer from "@components/Footer.astro";
 import Navigation from "@components/Navigation.astro";
 import { getContentFile } from "@lib/content";
+import { withBase, withoutBase } from "@lib/paths";
+import { fileNumber, folderPosition } from "@lib/folder";
 import type { SiteContent } from "../types/content";
 
 interface Props {
   title: string;
   description: string;
   accent?: string;
+  /** Set on the home page: uses the full SEO title and marks the page as a profile. */
+  isHome?: boolean;
+  /** Keep this page out of search results (e.g. the 404 page). */
+  noindex?: boolean;
+  /**
+   * For a page clipped to another file (e.g. "Japan, May 2018" under Activities): shown after the
+   * file name, and the page ends with a link back instead of previous / next.
+   */
+  attachment?: string;
+  /** A page-specific preview image for link sharing (path under public/), and its alt text. */
+  ogImage?: string;
+  ogImageAlt?: string;
 }
 
-const { title, description, accent = "sapphire" } = Astro.props;
+const { title, description, isHome = false, noindex = false, attachment, ogImage, ogImageAlt } = Astro.props;
 const siteContent = getContentFile<SiteContent>("site");
-const pageTitle = `${title} | ${siteContent.profile.name}`;
+const { profile, seo } = siteContent;
+
+// Each page is a file in the folder: its tab colour is the page accent, and it knows its neighbours.
+const position = folderPosition(siteContent.navigation_links, Astro.url.pathname);
+const accent = position.current?.accent ?? Astro.props.accent ?? "sapphire";
+
+// Lets print styles (and anything else) target a specific page, e.g. html[data-page="activities"].
+const pageKey = withoutBase(Astro.url.pathname).replace(/^\/|\/$/g, "") || "home";
+
+const pageTitle = isHome ? seo.home_title : `${title} | ${profile.name}`;
+const metaDescription = (isHome
+  ? description
+  : `${title} — ${profile.name}, ${seo.job_title} at ${seo.employer}. ${description}.`
+).replace(/\s+/g, " ").trim();
+
+const site = Astro.site ?? new URL(Astro.url.origin);
+const canonicalUrl = new URL(Astro.url.pathname, site).href;
+const homeUrl = new URL(withBase("/"), site).href;
+const ogImageUrl = new URL(withBase(ogImage ?? seo.og_image), site).href;
+const ogAlt = ogImage ? (ogImageAlt ?? title) : seo.og_image_alt;
+const personId = `${homeUrl}#person`;
+
+// schema.org data lets search engines and AI answer engines identify who this site is about.
+const person = {
+  "@type": "Person",
+  "@id": personId,
+  name: profile.name,
+  url: homeUrl,
+  email: `mailto:${profile.email}`,
+  jobTitle: seo.job_title,
+  worksFor: { "@type": "Organization", name: seo.employer },
+  homeLocation: { "@type": "Place", name: seo.location },
+  alumniOf: { "@type": "CollegeOrUniversity", name: seo.alumni_of },
+  knowsAbout: seo.knows_about,
+  award: seo.awards,
+  sameAs: seo.same_as,
+};
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": isHome
+    ? [{ "@type": "ProfilePage", "@id": canonicalUrl, url: canonicalUrl, name: pageTitle, description: metaDescription, mainEntity: person }]
+    : [
+        { "@type": "WebPage", "@id": canonicalUrl, url: canonicalUrl, name: pageTitle, description: metaDescription, about: { "@id": personId } },
+        {
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Home", item: homeUrl },
+            { "@type": "ListItem", position: 2, name: title, item: canonicalUrl },
+          ],
+        },
+        person,
+      ],
+};
 ---
 
 <!doctype html>
-<html lang="en" data-accent={accent}>
+<html lang="en" data-accent={accent} data-page={pageKey}>
   <head>
     <meta charset="UTF-8" />
-    <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="generator" content={Astro.generator} />
     <title>{pageTitle}</title>
+    <meta name="description" content={metaDescription} />
+    <meta name="author" content={profile.name} />
+    <meta name="theme-color" content="#f4eddf" />
+    {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonicalUrl} />}
+    <link rel="sitemap" href={withBase("/sitemap.xml")} />
+
+    <meta property="og:type" content={isHome ? "profile" : "website"} />
+    <meta property="og:site_name" content={profile.name} />
+    <meta property="og:locale" content="en_IN" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={metaDescription} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={ogAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={metaDescription} />
+    <meta name="twitter:image" content={ogImageUrl} />
+    <meta name="twitter:image:alt" content={ogAlt} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <link rel="icon" href="/avaneesh2001/favicon.png" type="image/png" />
-
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650&family=Source+Sans+3:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link rel="icon" href={withBase("/favicon.png")} type="image/png" />
+    <link rel="apple-touch-icon" href={withBase("/apple-touch-icon.png")} />
   </head>
   <body>
     <a class="skip-link" href="#main-content">Skip to content</a>
     <div class="site-shell">
       <Navigation links={siteContent.navigation_links} profile={siteContent.profile} currentPath={Astro.url.pathname} />
-      <main id="main-content" tabindex="-1">
-        <slot />
-      </main>
+      <div class="folder">
+        <main id="main-content" class="sheet" tabindex="-1">
+          <p class="file-ref">
+            {position.current
+              ? <span><b>File {fileNumber(position.index)}</b> · {position.current.label}{attachment && <> › {attachment}</>}</span>
+              : <span><b>Index</b> · Page not found</span>}
+            <span class="file-ref-owner">{profile.name} · Portfolio</span>
+          </p>
+          <slot />
+          {position.current && attachment && (
+            <nav class="page-foot" aria-label="Back to the main file">
+              <a class="page-foot-prev is-back" href={withBase(position.current.href)}><span aria-hidden="true">←</span> Back to {position.current.label}</a>
+              <span class="page-foot-count">Clipped to File {fileNumber(position.index)}</span>
+              <span class="page-foot-next is-empty" aria-hidden="true"></span>
+            </nav>
+          )}
+          {position.current && !attachment && (
+            <nav class="page-foot" aria-label="Next and previous pages">
+              {position.previous
+                ? <a class="page-foot-prev" href={withBase(position.previous.href)}><span aria-hidden="true">←</span> {position.previous.label}</a>
+                : <span class="page-foot-prev is-empty" aria-hidden="true"></span>}
+              <span class="page-foot-count">Page {position.index + 1} of {position.total}</span>
+              {position.next
+                ? <a class="page-foot-next" href={withBase(position.next.href)}>Next: {position.next.label} <span aria-hidden="true">→</span></a>
+                : <span class="page-foot-next is-empty">End of file</span>}
+            </nav>
+          )}
+        </main>
+      </div>
       <Footer profile={siteContent.profile} links={siteContent.footer_links} />
     </div>
     <script>
+      // Fade sections in as they scroll into view. Content already on screen is never hidden,
+      // and without JS (or with reduced motion) everything simply shows.
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (!reduceMotion && "IntersectionObserver" in window) {
+        const revealObserver = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.remove("reveal-pending");
+            entry.target.classList.add("is-visible");
+            revealObserver.unobserve(entry.target);
+          });
+        }, { rootMargin: "0px 0px -8% 0px", threshold: 0.12 });
+
+        document.querySelectorAll("[data-reveal]").forEach((element) => {
+          if (element.getBoundingClientRect().top < window.innerHeight) {
+            element.classList.add("is-visible");
+            return;
+          }
+          element.classList.add("reveal-pending");
+          revealObserver.observe(element);
+        });
+      }
+
+      // When printing, open collapsed notes and load lazy images so the paper copy is complete.
+      const openedForPrint = new Set<HTMLDetailsElement>();
+      window.addEventListener("beforeprint", () => {
+        document.querySelectorAll("details:not([open])").forEach((details) => {
+          if (details instanceof HTMLDetailsElement) {
+            details.open = true;
+            openedForPrint.add(details);
+          }
+        });
+        document.querySelectorAll('img[loading="lazy"]').forEach((image) => image.setAttribute("loading", "eager"));
+      });
+      window.addEventListener("afterprint", () => {
+        openedForPrint.forEach((details) => (details.open = false));
+        openedForPrint.clear();
+      });
+
       document.querySelectorAll("[data-fallback-image]").forEach((image) => {
         const showFallback = () => {
           if (image instanceof HTMLElement) image.hidden = true;
@@ -59,6 +214,27 @@ const pageTitle = `${title} | ${siteContent.profile.name}`;
         image.addEventListener("error", showFallback);
         if (image instanceof HTMLImageElement && image.complete && image.naturalWidth === 0) showFallback();
       });
+
+      // Phone contents card: open/close, and close on Escape or a tap outside it.
+      const contentsToggle = document.querySelector("[data-contents-toggle]");
+      const contentsCard = document.querySelector("[data-contents-card]");
+      if (contentsToggle instanceof HTMLElement && contentsCard instanceof HTMLElement) {
+        const setOpen = (open: boolean) => {
+          contentsCard.hidden = !open;
+          contentsToggle.setAttribute("aria-expanded", String(open));
+        };
+        contentsToggle.addEventListener("click", () => setOpen(contentsCard.hidden));
+        document.addEventListener("keydown", (event) => {
+          if (event.key === "Escape" && !contentsCard.hidden) {
+            setOpen(false);
+            contentsToggle.focus();
+          }
+        });
+        document.addEventListener("click", (event) => {
+          const target = event.target;
+          if (!contentsCard.hidden && target instanceof Node && !contentsCard.contains(target) && !contentsToggle.contains(target)) setOpen(false);
+        });
+      }
 
       document.querySelectorAll("[data-skill-dialog-trigger]").forEach((trigger) => {
         trigger.addEventListener("click", () => {

@@ -4,37 +4,40 @@ page_intro = "Backend systems, automation frameworks, and AI-driven engineering 
 [[experience_entries]]
 role_title = "Senior Engineer"
 organization_name = "Qualcomm"
+organization_logo = "logos/qualcomm.webp"
 location = "Chennai, India"
-duration = "Jun 22, 2026 – Present"
-role_summary = "Extending Quartz code intelligence and developer tools across SDK and backend layers"
+duration = "Jun 2026 – Present"
+role_summary = "Extending an internal code intelligence platform and developer tools across SDK and backend layers"
 accent = "emerald"
 visible_bullets = [
-  "Expanded Quartz code intelligence with SystemC support, component search, and additional file indexing",
+  "Expanded an internal code intelligence platform with SystemC support, component search, and additional file indexing",
   "Enhanced developer workflows with MCP navigation, tool discovery, and Confluence integration",
   "Benchmarked code search performance, latency, and cost"
 ]
 detailed_bullets = [
-  "Designed and extended the Quartz code intelligence platform with SystemC support, component search, and indexing for .proto and Android.bp files, expanding codebase coverage and search capabilities",
+  "Designed and extended an internal code intelligence platform with SystemC support, component search, and indexing for .proto and Android.bp files, expanding codebase coverage and search capabilities",
   "Enhanced developer workflows through hierarchical MCP file navigation, tool discovery, category-wise dependency filtering, and Confluence integration across SDK and backend layers",
-  "Benchmarked Quartz against grep and Gtags for search performance, latency, and cost"
+  "Benchmarked the platform against grep and Gtags for search performance, latency, and cost"
 ]
-optional_longer_explanation = "Focused on code intelligence and developer productivity, extending language and build-file coverage while improving discovery, navigation, and integrations across Quartz."
+optional_longer_explanation = "Focused on code intelligence and developer productivity, extending language and build-file coverage while improving discovery, navigation, and integrations across the platform."
 optional_image = ""
 
 [[experience_entries]]
 role_title = "Software Development Engineer"
 organization_name = "Truminds Software Systems"
+organization_logo = "logos/truminds.png"
+organization_logo_height = 40
 location = "Chennai & Bengaluru, India"
-duration = "Sep 2023 – Jun 19, 2026"
+duration = "Sep 2023 – Jun 2026"
 role_summary = "Built backend systems, automation frameworks, and LLM-powered developer tools"
 accent = "sapphire"
 visible_bullets = [
-  "Built a multilingual code dependency graph serving 2400+ active users",
-  "Improved test coverage using LLM-based pipelines",
-  "Worked across backend systems, AI, and telecom automation"
+  "Built a multilingual code dependency graph indexing 7k+ repositories, serving 3M+ queries for 3k+ active users",
+  "Raised conditional test coverage from 50% to 83% with an LLM test-generation pipeline (92% acceptance rate)",
+  "Developed 47+ O-RAN M-Plane test cases with C#, Python, and OpenTAP"
 ]
 detailed_bullets = [
-  "Designed and deployed a code dependency graph system indexing 3.5k+ repositories with low-latency query support",
+  "Designed and deployed a code dependency graph system indexing 7k+ repositories, with low-latency queries (3M+ served)",
   "Built end-to-end LLM pipeline for automated unit test generation improving conditional coverage from 50% to 83% with a 92% acceptance rate",
   "Developed 47+ O-RAN M-Plane test cases using C#, Python, and OpenTAP, integrating REST APIs for scalable execution"
 ]
@@ -44,14 +47,15 @@ optional_image = ""
 [[experience_entries]]
 role_title = "Software Engineer Intern"
 organization_name = "Truminds Software Systems"
+organization_logo = "logos/truminds.png"
+organization_logo_height = 40
 location = "Bengaluru, India"
 duration = "May 2022 – Jul 2022"
 role_summary = "Worked on data pipelines, automation, and applied ML systems"
 accent = "emerald"
 visible_bullets = [
-  "Built GDPR-compliant name masking system",
-  "Developed web scraping pipelines",
-  "Worked on data processing and automation"
+  "Built a GDPR-compliant NER system that detects and masks names in text",
+  "Built Selenium data-extraction pipelines, optimised with multithreading"
 ]
 detailed_bullets = [
   "Implemented NER-based system for detecting and masking sensitive entities in text data",

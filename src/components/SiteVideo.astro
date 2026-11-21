@@ -1,0 +1,25 @@
+---
+interface Props {
+  /** Path relative to src/assets, e.g. "projects/rag-demo.mp4". */
+  src: string;
+  label: string;
+  caption?: string;
+}
+
+const { src, label, caption } = Astro.props;
+
+// Videos live next to images in src/assets; Vite copies them to the build with a hashed name.
+const videos = import.meta.glob<string>("../assets/**/*.{mp4,webm,MP4,WEBM}", { eager: true, query: "?url", import: "default" });
+const url = videos[`../assets/${src.replace(/^\/+/, "")}`];
+if (!url) throw new Error(`SiteVideo: no video at src/assets/${src}`);
+const type = src.toLowerCase().endsWith(".webm") ? "video/webm" : "video/mp4";
+---
+
+<figure class="image-frame">
+  <div class="image-visual">
+    <video class="archive-image" muted loop playsinline controls preload="metadata" aria-label={label}>
+      <source src={url} type={type} />
+    </video>
+  </div>
+  {caption && <figcaption class="image-caption">{caption}</figcaption>}
+</figure>

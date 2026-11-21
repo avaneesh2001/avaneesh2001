@@ -1,5 +1,6 @@
 ---
 import type { FooterLink, SiteContent } from "../types/content";
+import { withBase } from "@lib/paths";
 
 interface Props {
   profile: SiteContent["profile"];
@@ -16,7 +17,7 @@ const { profile, links } = Astro.props;
   </div>
   <ul class="footer-links" aria-label="Contact links">
     {links.map((link) => (
-      <li><a href={link.href}>{link.label}</a></li>
+      <li><a href={withBase(link.href)}>{link.label}</a></li>
     ))}
   </ul>
 </footer>
